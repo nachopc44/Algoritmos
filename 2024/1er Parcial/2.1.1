@@ -1,0 +1,23 @@
+//Dada una secuencia de letras del alfabeto que finaliza con una marca '*', contar cuantas letras "A" hay en la secuencia.
+
+Accion 211 es
+
+AMBIENTE 
+Sec1: secuencia de caracteres
+V1: caracter 
+ContA: entero
+
+PROCESO
+arr(Sec1)
+avz(Sec1,V1)
+ContA:=0
+Mientras V1<>"*" hacer
+	Mientras V1<>"A" hacer
+		avz(Sec1,V1)
+	FinMientras
+	ContA:= ContA+1
+	avz(Sec1,V1)
+FinMientras
+Escribir("En la secuensia hay ", ContA, " letras A")
+
+FinAccion

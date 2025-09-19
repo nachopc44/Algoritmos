@@ -1,0 +1,83 @@
+Accion 2218 es 
+
+AMBIENTE
+Articulos = Registro
+	Cod_Prod: N(5)
+	Tipo: AN(30)
+	Marca: AN(30)
+	Descripcion: AN(30)
+	Cant_Unidades: N(5)
+FinRegistro
+Arch1, Arch2: Archivo de Articulos ordenado por Cod_Prod
+Reg1, Reg2: Articulos
+
+Salida = Registro
+	Cod_Prod: N(5)
+	Tipo: AN(30)
+	Marca: AN(30)
+	Descripcion: AN(30)
+	Cant_Suc_1: N(5)
+	Cant_Suc_2: N(5)
+	Total_Unidades: N(6)
+FinRegistro
+ArchS: Archivo de Salida
+RegS: Salida
+
+Subaccion leer_Suc1() es
+	Leer(Arch1,Reg1)
+	Si FDA(Arch1) entonces
+		Reg1.Cod_Prod:=HV
+	FinSi
+FinSubaccion
+
+Subaccion leer_Suc2() es
+	Leer(Arch2,Reg2)
+	Si FDA(Arch2) entonces
+		Reg2.Cod_Prod:=HV
+	FinSi
+FinSubaccion
+
+PROCESO 
+	Abrir e/ (Arch1); leer_Suc1()
+	Abrir e/ (Arch2); leer_Suc2()
+	Abrir s/ (ArchS)
+	Mientras (Arch1 <> HV) o (Arch2 <> HV) hacer
+		Si Arch1.Cod_Prod < Arch2.Cod_Prod entonces
+			RegS.Cod_Prod:=Reg1.Cod_Prod
+			RegS.Tipo:=Reg1.Tipo
+			RegS.Marca:=Reg1.Marca
+			RegS.Descripcion:=Reg1.Descripcion
+			RegS.Cant_Suc_1:=Reg1.Cant_Unidades
+			RegS.Cant_Suc_2:=0
+			RegS.Total_Unidades:=Reg1.Cant_Unidades
+			Grabar(ArchS,RegS)
+			leer_Suc1()
+		Sino
+			Si Arch1.Cod_Prod > Arch2.Cod_Prod entonces
+				RegS.Cod_Prod:=Reg2.Cod_Prod
+				RegS.Tipo:=Reg2.Tipo
+				RegS.Marca:=Reg2.Marca
+				RegS.Descripcion:=Reg2.Descripcion
+				RegS.Cant_Suc_1:=0
+				RegS.Cant_Suc_2:=Reg2.Cant_Unidades
+				RegS.Total_Unidades:=Reg2.Cant_Unidades
+				Grabar(ArchS,RegS)
+				leer_Suc2()
+			Sino
+				RegS.Cod_Prod:=Reg1.Cod_Prod
+				RegS.Tipo:=Reg1.Tipo
+				RegS.Marca:=Reg1.Marca
+				RegS.Descripcion:=Reg1.Descripcion
+				RegS.Cant_Suc_1:=Reg1.Cant_Unidades
+				RegS.Cant_Suc_2:=Reg2.Cant_Unidades
+				RegS.Total_Unidades:=(Reg1.Cant_Unidades+Reg2.Cant_Unidades)
+				Grabar(ArchS,RegS)
+				leer_Suc1()
+				leer_Suc2()
+			FinSi
+		FinSi
+	FinMientras
+	Cerrar(Arch1)
+	Cerrar(Arch2)
+	Cerrar(ArchS)
+FinAccion

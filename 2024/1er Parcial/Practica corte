@@ -1,0 +1,13 @@
+accion cortep es
+
+AMBIENTE 
+
+hoteles = registro
+	codigo_cadena: AN(15)
+	nivel_hotel: 1...5
+	codigo_hotel: N(4)
+	nombre_hotel: AN(50)
+	es_ciudad_sede: (Booleano)
+	cantidad_habitaciones: N(4)
+finregistro 
+

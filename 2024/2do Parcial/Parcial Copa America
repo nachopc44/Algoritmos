@@ -1,0 +1,64 @@
+Accion PCopaAmerica es 
+    Ambiente
+        Paises = Registro
+            Codigo_pais: N(3)
+            Apuestas_a_favor: N(4)
+            Apuestas_en_contra: N(4)
+            Goles_esperados: N(2)
+            Tarjetas_rojas_esperadas: N(2)
+        FinRegistro
+
+        Prode = Registro
+            Codigo_pais: N(3)
+            Fecha_apuesta = Registro
+                DD: (1...31)
+                MM: (1...12)
+                AA: N(4)
+            FinRegistro
+            Apuesta_a_favor: {"Si","No"}
+            Goles: N(2)
+            Tarjetas_rojas: N(2)
+        FinRegistro
+
+        Trofeos = Registro
+            Codigo_pais: N(3)
+            Cantidad_de_copas: N(2)
+        FinRegistro
+
+        Mae, MaeAct, Populares: archivo de Paises ordenado por Codigo_pais
+        RMae, RMaeAct, Aux: Paises
+
+        Mov: archivo de Prode ordenado por Codigo_pais y Fecha_apuesta
+        RMov: Prode
+
+        Trof: archivo de Trofeos indexado por Codigo_pais
+        RTrof: Trofeos
+
+        Procedimiento LeerMae() es
+            Leer(Mae, RMae)
+            Si FDA(Mae) entonces 
+                RMae.Codigo_pais:= HV
+            FinSi
+        FinProcedimiento
+
+        Procedimiento LeerMov() es
+            Leer(Mov, RMov)
+            Si FDA(Mov) entonces 
+                RMov.Codigo_pais:= HV
+            FinSi
+        FinProcedimiento
+
+    Proceso
+        Abrir e/ (Mae)
+        Abrir e/ (Mov)
+        Abrir e/ (Trof)
+        Abrir /s (MaeAct)
+        Abrir /s (Populares)
+        LeerMae()
+        LeerMov()
+
+        Mientras (RMae.Codigo_pais <> HV) o (RMov.Codigo_pais <> HV) hacer
+            Si (RMae.Codigo_pais > RMov.Codigo_pais) entonces 
+                Aux:= RMae 
+                Mientras RMae.Codigo_pais = Aux.Codigo_pais hacer
+                    

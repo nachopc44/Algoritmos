@@ -1,0 +1,73 @@
+Accion 2224 es 
+
+AMBIENTE 
+
+Fecha = Registro 
+	DD: 1..31
+	MM: 1..12
+	AA: N(4) 
+FinRegistro
+
+Costos_Por_Afiliado = Registro
+	Cod_Afiliado: N(5)
+	Fecha_Alta: Fecha 
+	Fecha_Baja: Fecha 
+	Cant_Servicios: N(3)
+	Costo: N(7) 
+FinRegistro
+
+ArchMae, ArchMaeS: Archivo de Costos_Por_Afiliado ordenado por Cod_Afiliado
+RegMae, RegMaeS, aux: Costos_Por_Afiliado
+
+Servicios_Semanales = Registro
+	Cod_Afiliado: N(5)
+	Fecha_At: Fecha 
+	Cod_Servicios: N(3)
+	Costo: N(7)
+FinRegistro
+
+ArchMov: Archivo de Servicios_Semanales ordenado por Cod_Afiliado
+RegMov: Servicios_Semanales
+
+Subaccion LeerMae() es 
+	Leer(ArchMae,RegMae)
+	Si FDA(ArchMae) entonces
+		RegMae.Cod_Afiliado:= HV
+	FinSi
+FinSubaccion
+
+Subaccion LeerMov() es 
+	Leer(ArchMov,RegMov)
+	Si FDA(ArchMov) entonces
+		RegMov.Cod_Afiliado:= HV
+	FinSi
+FinSubaccion
+
+PROCESO
+	Abrir e/ (ArchMae)
+	LeerMae()
+	Abrir e/ (ArchMov)
+	LeerMov()
+	Abrir /s (ArchMaeS)
+
+	Mientras (RegMae.Cod_Afiliado <> HV) o (RegMov.Cod_Afiliado <> HV) hacer
+		Si RegMae.Cod_Afiliado < RegMov.Cod_Afiliado entonces 
+			RegMaeS:= RegMae
+			Grabar(ArchMaeS, RegMaeS)
+			LeerMae()
+		Sino
+			Si RegMae.Cod_Afiliado = RegMov.Cod_Afiliado entonces
+				aux:= RegMae 
+				Mientras RegMae.Cod_Afiliado = RegMov.Cod_Afiliado hacer
+					Si RegMov.Cod_Servicios = 000 entonces
+						aux.Fecha_Baja:= RegMov.Fecha_At 
+					FinSi
+					LeerMov()
+				FinMientras 
+				RegMaeS:= aux
+				Grabar(ArchMaeS, RegMaeS)
+				LeerMae()
+			Sino
+				Si RegMae.Cod_Afiliado > RegMov.Cod_Afiliado entonces
+					Mientras RegMae.Cod_Afiliado > RegMov.Cod_Afiliado hacer
+						

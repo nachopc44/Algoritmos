@@ -1,0 +1,96 @@
+Accion parcialadopcion es
+
+    AMBIENTE
+        sec1: secuencia de caracter
+        v1: caracter
+        sec2: secuencia de caracter
+        v2: caracter
+        secS: secuencia de caracter
+        secS2: secuencia de entero
+        perrosadp, id_a, id_r: entero
+        dig1, dig2: AN(1)
+
+    FUNCION CaracterAEntero (dig1, dig2: AN(1)):N(2) es
+        total, ent1, ent2: entero
+        Segun dig1 hacer
+            ="0": ent1:=0
+            ="1": ent1:=1
+            ="2": ent1:=2
+            ="3": ent1:=3
+            ="4": ent1:=4
+            ="5": ent1:=5
+            ="6": ent1:=6
+            ="7": ent1:=7
+            ="8": ent1:=8
+            ="9": ent1:=9
+        Segun dig2 hacer
+            ="0": ent2:=0
+            ="1": ent2:=1
+            ="2": ent2:=2
+            ="3": ent2:=3
+            ="4": ent2:=4
+            ="5": ent2:=5
+            ="6": ent2:=6
+            ="7": ent2:=7
+            ="8": ent2:=8
+            ="9": ent2:=9
+        total:= ent1*10
+        total:= total+ent2
+        CaracterAEntero:= total
+    FinSub
+
+    PROCESO
+        arr(sec1)
+        avz(sec1,v1)
+        arr(sec2)
+        avz(sec2,v2)
+        crear(secS)
+        crear(secS2)
+        perrosadp:= 0
+        id_a:= 0
+        id_r:= 0
+
+        Mientras v1<>"*" hacer
+            dig1:= v1
+            avz(sec1,v1)
+            dig2:= v1
+            id_a:= CaracterAEntero(dig1,dig2)
+            dig1:= v2
+            avz(sec2,v2)
+            dig2:= v2
+            id_r:= CaracterAEntero(dig1,dig2)
+            Si id_a=id_r entonces 
+                avz(sec1,v1)
+                Si v1="C"entonces
+                    Para i:=1 a 4 hacer
+                        escribir(secS,v1)
+                        avz(sec1,v1)
+                    FinPara
+                    avz(sec1,v1)
+                    Mientras v1<>"#" hacer
+                        escribir(secS,v1) 
+                        avz(sec1,v1)
+                    FinMientras
+                    escribir(secS,v1)
+                    Mientras v2<>"%" hacer
+                        avz(sec2,v2)
+                    FinMientras
+                    avz(sec2,v2)
+                    Para i:=1 a 10 hacer
+                        escribir(secS,v2)
+                        avz(sec2,v2)
+                    FinPara
+                    escribir(secS,"$")
+                    Para i:=1 a 4 hacer
+                        avz(sec1,v1)
+                    FinPara
+                Sino
+                    Mientras v1<>"#"
+                        avz(sec1,v1)
+                    FinMientras
+                    Para i:=1 a 6 hacer
+                        avz(sec1,v1)
+                    FinPara
+                FinSi
+            FinSi
+        FinMientras

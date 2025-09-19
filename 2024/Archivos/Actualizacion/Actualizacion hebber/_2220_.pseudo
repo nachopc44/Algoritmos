@@ -1,0 +1,93 @@
+Algoritmo _2220_
+
+    //ambiente
+
+        reg1 = registro 
+            ayn: caracter(100);
+            carrera: ("ISI","IQ","MEQ");
+            nro_legajo: entero(6);
+            fecha_n: fecha;
+            fecha_i: fecha;
+            dni: entero(8);
+            sexo: ("M","F");
+            fecha_uea: fecha;
+            nota: entero(2);
+        fin;
+
+        reg2 = registro
+            nro_legajo: entero(6);
+            carrera: ("ISI","IQ","MEQ");
+            cod_mat: entero(10);
+            fecha_ue: fecha;
+            nota: entero(2);
+        fin;
+        
+        maestro: archivo de reg1 ordenado por nro_legajo;
+        mae: reg1;
+        nuevo: archivo de reg1 ordenado por nro_legajo;
+        movimiento: archivo de reg2 ordenado por nro_legajo;
+        mov: reg2;
+        resmov: reg2;
+
+        proceso LeerMaestro()
+
+            leer(maestro, mae);
+            si fds(maestro) entonces
+
+                mae.nro_legajo:= (HV);
+
+            fin;
+        
+        proceso LeerMovimiento()
+            
+            Leer(movimiento, mov);
+            si fds(movimiento) entonces
+
+                mov.nro_legajo:= (HV);
+            
+            fin;
+        
+    //proceso
+
+        Abrir e/(maestro);
+        LeerMaestro();
+        Abrir e/(movimiento);
+        LeerMovimiento();
+        Abrir s/ (nuevo);
+        mientras (((mae.nro_legajo) <> (HV)) o ((mov.nro_legajo) <> (HV))) hacer
+
+            Si ((mae.nro_legajo) < (mov.nro_legajo)) entonces                       // no se presento a ninguna mesa, se copia como esta.
+
+                Escribir(nuevo, mae);
+                Leermae();
+
+            sino
+
+                si ((mae.nro_legajo) = (mov.nro_legajo)) entonces                   // si se presento.
+
+                    mientras ((mov.nro_legajo) = (mae.nro_legajo)) hacer            // avanzo hasta que sea distinto para verificar que no se repita el alumno, por las dudas que no haya rendido en dos turnos.
+                    
+                            mae.fecha_uea:= (mov.fecha_ue);
+                            mae.nota:= (mov.nota);
+                            LeerMovimiento();
+                        
+                    fin;
+                    escribir(nuevo, mae);
+                    LeerMaestro();
+                
+                sino
+
+                    Escribir("El legajo ",mov.nro_legajo," presentado al examen no se encuentra en la lista de alumnos");       // el error es porque el alumno si o si debe estar en el maestro.
+                    mientras ((mae.nro_legajo) > (mov.nro_legajo)) hacer                                                        //avanzo para poder seguir con el procedimiento pero ya reporte el error.
+                    
+                        LeerMovimiento();
+                    
+                    fin;
+                
+                fin;
+            
+            fin;
+
+        fin;
+
+Fin;

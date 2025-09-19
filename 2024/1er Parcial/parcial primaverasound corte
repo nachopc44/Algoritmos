@@ -1,0 +1,69 @@
+Accion PSC es
+
+AMBIENTE
+Fecha1 = registro
+	Año: N(4)
+	Mes: (1...12)
+	Dia: (1...31)
+FinRegistro
+
+Ventas = registro
+    Provincia: AN(30)
+	Ciudad: AN(30)
+	Plataforma: AN(30)
+	Fecha: Fecha1 
+	Entradas: N(4)
+FinRegistro
+
+ArchE: archivo de Ventas ordenado por Provincia, Ciudad, Plataforma y Fecha
+RegE: Ventas
+
+Salida = registro
+	Provincia: AN(30)
+	Ciudad: AN(30)
+	Entradas: N(4)
+FinRegistro
+
+ArchS: archivo de Salida
+RegS: Salida
+
+ResProv: AN(30)
+ResCiud: AN(30)
+ResPlat: AN(30)
+
+Procedimiento cortePlat() es
+	ResPlat:= RegE.Plataforma
+FinProcedimiento
+
+Procedimiento corteCiud() es
+	cortePlat()
+	ResCiud:= RegE.Ciudad
+FinProcedimiento
+
+Procedimiento corteProv()
+	corteCiud()
+	ResProv:= RegE.Procedimiento
+FinProcedimiento
+
+PROCESO
+	Abrir e/ (ArchE)
+	Leer(ArchE,RegE)
+	Abrir /s (ArchS)
+	ResProv:= RegE.Provincia
+	ResCiud:= RegE.Ciudad
+	ResPlat:= RegE.Plataforma
+	Mientras NFDA(ArchE) hacer
+		Si ResProv<>RegE.Provincia entonces
+			corteProv()
+		Sino
+			Si ResCiud<>RegE.Ciudad entonces
+				corteCiud()
+			Sino
+				Si ResPlat<>RegE.Plataforma entonces
+					cortePlat()
+				FinSi
+			FinSi
+		FinSi
+	FinMientras
+	corteProv()
+FinAccion

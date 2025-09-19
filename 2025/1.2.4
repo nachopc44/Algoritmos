@@ -1,0 +1,38 @@
+//Elaborar una función que reciba un número entero y retorne -1 si el número es negativo. Si el número es positivo debe devolver una clave calculada de la siguiente manera: Se suma cada dígito que compone el número y a esa suma se le calcula el módulo 7. Por ejemplo: para la cifra 513, la clave será 5+1+3 =9; 9 mod 7 =2. Utilice la función para diseñar un algoritmo que permita leer varios valores y determine, para cada uno, si el número leído fue negativo o, si fue positivo, que clave le corresponde.
+
+Accion 124 es
+	AMBIENTE 
+		num, result: entero 
+		pregunta: {"si", "no"}
+		Funcion cons(n: entero):entero es
+			Ambiente
+				sum: entero 
+			Proceso 
+				sum:= 0
+				Si (n>=0) entonces
+					Mientras (n<>0) hacer	
+						sum:= n MOD 10 + sum
+						n:= n DIV 10
+					FinMientras
+					cons:= sum MOD 7
+				Sino
+					cons:= -1
+				FinSi
+		FinFuncion
+	
+	PROCESO
+		pregunta:= "si"
+		Mientras (seguir=verdadero) hacer
+			Escribir("Ingrese un numero")
+			Leer(num)
+			result:= cons(num)
+			Si result=-1 entonces
+				Escribir("El numero ingresado es negativo")
+			Sino
+				Escribir("El numero ingresado es positivo, y su clave es ", result)
+			FinSi
+			Escribir("Desea ingresar otro numero? si/no")
+			Leer(pregunta)
+		FinMientras
+	FinProceso
+FINACCION

@@ -1,0 +1,16 @@
+//Una empresa de energía simula el consumo de electricidad de una casa durante los 30 días del mes. Cada día se ingresan los kWh consumidos. Se debe mostrar el total y el promedio mensual.
+
+Accion D4 es
+	AMBIENTE
+		i, total, diaActual: real 
+	
+	PROCESO
+		total:= 0
+		Para i:= 1 a 30 hacer 
+			Escribir("Ingresar los kWh consumidos hoy")
+			Leer(diaActual)
+			total:= total + diaActual 
+		FinPara  
+		Escribir("En total se utilizaron ", total, "kWh en el mes, un promedio de ", (total/30), "kWh por dia.")
+	FinProceso
+FINACCION 

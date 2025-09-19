@@ -1,0 +1,30 @@
+Accion 3.5 (A: arreglo [1 .. 30] de reales B: arreglo [1 .. 30] de reales)
+
+AMBIENTE 
+i, j, k: entero
+C: arreglo [1..60] de reales
+
+PROCESO
+	i:=1
+	j:=1
+	k:=1
+	Mientras i<=30 o j<=30 hacer
+		Si A[i] < B[j] entonces
+			C[k]:= A[i]
+			k:= k + 1
+			i:= i + 1 
+		Sino
+			Si A[i] > B[j] entonces
+				C[k]:= B[j] 
+				k:= k + 1 
+				j:= j + 1 
+			Sino
+				C[k]:= A[i]
+				C[k+1]:= B[j]
+				k:= k + 2
+				i:= i + 1
+				j:= j + 1
+			FinSi
+		FinSi
+	FinMientras
+FinAccion 

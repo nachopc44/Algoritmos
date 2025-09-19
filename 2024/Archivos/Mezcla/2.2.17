@@ -1,0 +1,80 @@
+Accion 2217 es 
+
+AMBIENTE
+Fecha = Registro
+	DD: 1..31
+	MM: 1..12
+	AA: 2000..2024
+FinRegistro
+
+Aspirantes = Registro
+	DNI: N(8)
+	ApeyNom: AN(30)
+	Carrera: {"ISI", "IQ", "IEM", "LAR"}
+	F_Nac: Fecha
+	Email: AN(30)
+	ColegioSec: AN(30)
+	FechaInscripcion: Fecha
+	Aprobado: {"Si", "No"}
+FinRegistro
+
+ArchAgos, ArchFeb: Archivo de Aspirantes ordenado por DNI
+RegAgos, RegFeb: Aspirantes
+
+Seguimiento = Registro
+	DNI: N(8)
+	ApeyNom: AN(30)
+	Email: AN(30)
+	ColegioSec: AN(30)
+FinRegistro
+
+ArchSeg: Archivo de Seguimiento
+RegSeg: Seguimiento 
+
+Cont: entero
+
+Subaccion leer_agosto() es
+	Leer(ArchAgos,RegAgos)
+	Si FDA(ArchAgos) entonces
+		RegAgos.DNI:=HV
+	FinSi
+FinSubaccion 
+
+Subaccion leer_febrero() es
+	Leer(ArchFeb,RegFeb)
+	Si FDA(ArchFeb) entonces
+		RegFeb.DNI:=HV
+	FinSi
+FinSubaccion
+
+PROCESO
+	Abrir e/ (ArchAgos); leer_agosto()
+	Abrir e/ (ArchFeb); leer_febrero()
+	Abrir /s (ArchSeg)
+	Cont:=0
+	Mientras (RegAgos.DNI <> HV) o (RegFeb.DNI <> HV) hacer //incluyente
+		Si RegAgos.DNI < RegFeb.DNI entonces
+			leer_agosto()
+		Sino 
+			Si RegAgos.DNI = RegFeb.DNI entonces
+				Si (RegAgos.Aprobado = "No") y (RegFeb.Aprobado = "No") entonces
+					RegSeg.DNI:=RegAgos.DNI
+					RegSeg.ApeyNom:=RegAgos.ApeyNom
+					RegSeg.Email:=RegAgos.Email
+					RegSeg.ColegioSec:=RegAgos.ColegioSec
+					Grabar(ArchSeg,RegSeg)
+					Cont:=Cont+1
+				FinSi
+				leer_agosto()
+				leer_febrero()
+			Sino
+				leer_febrero()
+			FinSi 
+		FinSi
+	FinMientras
+	Escribir("La cantidad de aspirantes que se grabaron en el archivo de seguimiento es de "Cont)
+	Cerrar(ArchAgos)
+	Cerrar(ArchFeb)
+	Cerrar(ArchSeg)
+FinAccion 
+		

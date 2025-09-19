@@ -1,0 +1,125 @@
+Algoritmo UTNBook
+    
+    //ambiente
+
+        fecha = registro
+            a:N(4)
+            m:N(2)
+            d:N(2)
+        fin
+
+        famigos = registro 
+            cod_usuario: N(10)
+            cod_amigo: N(10)
+            Fecha_Amistad: fecha
+            Mensaje_Muro: AN(250)
+        fin
+
+        fnotificaciones = registro
+            cod_usuario: N(10)
+            cod_amigo: N(10)
+            cod_movimiento: N(10)
+            Fecha_Amistad: fecha
+            Mensaje_Muro: AN(250)
+        fin
+
+        proceso LeerMaestro()
+
+            leer(maestro, mae)
+            si fds(maestro) entonces
+
+                cod_usuario:= (HV)
+
+            fin
+        
+        proceso LeerMovimiento()
+            
+            Leer(movimiento, mov)
+            si fds(movimiento) entonces
+
+                cod_usuario:= (HV)
+            
+            fin
+
+        maestro: archivo de famigos ordenado por cod_usuario, cod_amigo
+        mae: famigos
+        maestroact: archivo de famigos ordenado por cod_usuario, cod_amigo
+        movimiento: archivo de fnotificaciones ordenado por cod_usuario, cod_amigo
+        mov: fnotificaciones
+
+    //proceso
+
+    
+        LeerMaestro()
+        LeerMovimiento()
+        mientras (((mov.cod_usuario) <> HV) o ((mae.cod_usuario) <> HV)) hacer 
+
+            si ((mae.cod_usuario) < (mov.cod_usuario)) entonces // si hay una notificacion de un usuario con un cod mayor significa que no hay de los menores, entonces avanza.
+                    
+                    Grabar(maestroact, mae)
+                    LeerMaestro()
+
+            sino
+
+                si ((mae.cod_usuario) = (mov.cod_usuario)) entonces // como no puede haber una notificacion de un usuario que no exista, mov puede ser mayor o igual, pero nunca menor
+
+                    mientras ((mae.cod_usuario) = (mov.cod_usuario)) hacer // aca trato las notificaciones hasta que cambie la clave cod_usuario
+
+                        si ((mae.cod_amigo) < (mov.cod_amigo)) entonces // si no hay notificaciones de los primeros amigos avanzo
+                            
+                            Grabar(maestroact, mae)
+                            LeerMaestro()
+                        
+                        sino
+
+                            si ((mae.cod_amigo) > (mov.cod_amigo)) entonces //si hay notificaciones de amigos con un id mas chico, pueden ser solicitudes de amistad
+
+                                si ((mov.cod_movimiento) = "A") entonces
+
+                                    Escribir("El usuario ",mae.cod_usuario," tiene una solicitud de amistad del usuario ", mov.cod_amigo)
+                                    LeerMovimiento()
+                                
+                                fin S 
+                            
+                            sino
+
+                                si ((mae.cod_amigo) = (mov.cod_amigo)) entonces // si son iguales, quiere decir que son amigos y tiene una notificacion
+                                    
+                                    si ((mov.cod_movimiento) = "B") entonces  // si se tiene que eliminar simplemente salteo 
+
+                                        Escribir("Se elimino a ",cod_amigo," de la lista de amigos de ",cod_usuario)
+                                        LeerMovimiento()
+                                        
+                                    sino 
+
+                                        si ((mov.cod_movimiento) = "M") entonces // si hay un mensaje en el muro, solo lo actualizo y avanzo, ya que estoy tratanto por partes
+
+                                            mae.Mensaje_Muro:= mov.Mensaje_Muro
+                                            Grabar(maestroact, mae)
+                                            LeerMovimiento()
+
+                                        fin S
+
+                                    fin S 
+
+                                fin S
+
+                            fin S
+
+                        fin S
+                        LeerMaestro() // avanzo el maestro ya que si no lo hago puede entrar en un bucle.
+                    
+                    fin M
+                
+                sino
+
+                    Escribir("!!Error¡¡ el usuario no esta registrado en UTNBook") // se activara cuando el cod_usuario del mov sea menor al del mae, ya que no puede existir en mov una notificacion de un usuario que no exista.
+
+                fin S
+
+            fin S
+            cerrar(maestroact)
+            cerrar(maestro)
+            cerrar(movimiento)
+
+Fin

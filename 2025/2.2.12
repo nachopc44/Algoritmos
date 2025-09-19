@@ -1,0 +1,81 @@
+//Dada una secuencia con información de población de un PAIS:
+//POBLACION Ordenado por Provincia, Departamento, Ciudad, Barrio, ID_Casa
+//Provincia | Departamento | Ciudad | Barrio | ID_Casa | Cantidad_Habitantes
+//Generar una secuencia con información de los departamentos de esa provincia, cuyo registro tenga el siguiente formato:
+//POBLACION_SALIDA
+//Provincia | Departamento | Cantidad_Habitantes
+
+Accion 2212 es 
+	AMBIENTE
+		POBLACION = Registro
+			Provincia: AN(30)
+			Departamento: AN(30)
+			Ciudad: AN(30)
+			Barrio: AN(30)
+			ID_Casa: N(3)
+			Cantidad_Habitantes: N(2)
+		FinRegistro
+
+		ArchE: archivo de POBLACION ordenado por Provincia, Departamento, Ciudad, Barrio, ID_Casa
+		RegE: POBLACION
+		ResP: AN(30)
+		ResD: AN(30) 
+
+		POBLACION_SALIDA = Registro
+			Provincia: AN(30)
+			Departamento: AN(30)
+			Cantidad_Habitantes: N(2)
+		FinRegistro
+
+		ArchS: archivo de POBLACION_SALIDA
+		RegS: POBLACION_SALIDA
+
+		ContP, ContD: entero 
+
+		Procedimiento corteD() es
+			Escribir("En el departamento ", ResD, " hay ", ContD, " habitantes.")
+			RegS.Provincia:= ResP
+			RegS.Departamento:= ResD
+			RegS.Cantidad_Habitantes:= ContD
+			Escribir(ArchS,RegS)
+			ContP:= ContP + ContD
+			ContD:= 0
+			ResD:= RegE.Departamento
+		FinProcedimiento
+
+		Procedimiento corteP() es
+			corteD()
+			Escribir("En la provincia ", ResP, " hay ", ContP, " habitantes.")
+			ContP:= 0 
+			ResP:= RegE.Provincia
+		FinProcedimiento
+	
+	PROCESO
+		Abrir E/ (ArchE)
+		Leer(ArchE,RegE)
+		Abrir /S (ArchS)
+
+		ContD:= 0
+		ContP:= 0 
+		ResD:= RegE.Departamento
+		ResP:= RegE.Provincia
+
+		Mientras NFDA(ArchE) hacer
+			Si ResP <> RegE.Provincia entonces
+				corteP()
+			Sino
+				Si ResD <> RegE.Departamento entonces
+					corteD()
+				FinSi
+			FinSi
+			
+			ContD:= ContD + RegE.Cantidad_Habitantes
+
+			Leer(ArchE,RegE)
+		FinMientras
+
+		corteP()
+		Cerrar(ArchE)
+		Cerrar(ArchS)
+	FinProceso
+FINACCION

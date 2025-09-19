@@ -1,0 +1,144 @@
+Algoritmo _2219_;
+
+    //ambiente
+
+        fecha = registro
+            a: N(4);
+            m: N(2);
+            d: N(2);
+        fin;
+
+        reg1 = registro
+            clave = registro 
+                farmacia: AN(50);
+                medicamento: AN(40);
+            fin;
+            cant_actual:: N(6);
+            vto: fecha;
+        fin;
+
+        reg2 = registro 
+            clavem = registro
+                farmacia: AN(50);
+                medicamento: AN(40);
+            fin;
+            cod_mov: ("1", "2", "3");
+            cant_recibida: N(6);
+        fin;
+        
+        reg3 = registro
+            medicamento: AN(40);
+            cant_vencida: N(6);
+        fin;
+
+        nuevo: archivop de reg1 ordenado por clave;
+        maestro: archivo de reg1 ordenado por clave;
+        mae: reg1;
+        movimiento: archivo de reg2 ordenado por clavem;
+        mov: reg2;
+        remedios_vencidos: archivo de reg3 ordenado por medicamento;
+        vencidos: reg3;
+
+        Proceso Leermae()
+
+            leer(maestro, mae);
+            si fda(maestro) entonces
+
+                mae.clave:=(HV);
+
+            fin;
+
+        fin;
+            
+        Proceso Leermov()
+
+            leer(movimiento, mov);
+            si fda(movimiento) entonces
+
+                mov.clavem:=(HV);
+
+            fin;
+            
+        fin;
+
+    //proceso
+
+        Abrir e/(maestro);
+        Leermae();
+        Abrir e/(movimiento);
+        Leermov();
+        Abrir s/(nuevo);
+        Abrir s/(remedios_vencidos);
+        mientras (((mae.clave) <> (HV)) o ((mov.clavem) <> (HV))) hacer
+
+            Si ((mae.clave) < (mov.clavem)) entonces
+
+                Escribir(nuevo, mae);
+                Leermae();
+            
+            sino
+
+                si ((mae.clave) = (mov.clavem))  entonces
+
+                    si ((mov.cod_mov) = "1") entonces
+
+                        Escribir("!!Error¡¡, este medicamento ya existe");
+                    
+                    sino
+
+                        si ((mov.cod_mov) = "2") entonces
+
+                            vencidos.medicamento:= (mov.medicamento);
+                            vencidos.cant_vencida:= (mov.cant_recibida);
+                            Escribir(remedios_vencidos, vencidos);
+                        
+                        sino
+
+                            mae.cant_actual:= ((mov.cant_recibida) + (mae.cant_actual));
+                            Escribir(nuevo, mae);
+                        
+                        fin;
+                    
+                    fin;
+                    Leermae();
+                    Leermov();
+
+                sino
+
+                    Si ((mae.clave) > (mov.clavem)) Entonces
+
+                        si ((mov.cod_mov) = "1") entonces 
+
+                            mae.clave:= (mov.clavem);
+                            mae.cant_actual:= (mov.cant_recibida);
+                            mae.fecha.d:= ((mae.fecha.d) + 30);
+                            si ((mae.fecha.d) > 31) entonces
+
+                                mae.fecha.d:= ((mae.fecha.d) - 31);
+                                mae.fecha.m:= ((mae.fecha.m) + 1);
+                                si ((mae.fecha.m) > 12) entonces
+
+                                    mae.fecha.m:= 1;
+                                    mae.fecha.a:= ((mae.fecha.d) + 1);
+                                
+                                fin;
+                            
+                            fin;
+                            Escribir(nuevo, mae);
+                        
+                        sino 
+
+                            Escribir("!!Error¡¡");
+
+                        fin;
+                        Leermov();
+
+                    fin;
+
+                fin;
+
+            fin;
+        
+        fin;
+
+    fin.

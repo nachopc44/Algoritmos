@@ -1,0 +1,33 @@
+Accion YT es
+
+AMBIENTE
+Youtube = Registro
+	URL: AN(30)
+	FechaPico = Registro
+		Año: N(4)
+		Mes: (1..12)
+		Dia: (1..31)
+	FinRegistro 
+	Reproducciones: N(10)
+FinRegistro
+ArchE: Archivo de Youtube ordenado por URL
+RegE: Youtube
+
+Cont, Cont1: N(7)
+
+PROCESO
+	Abrir e/(ArchE)
+	Leer(ArchE,RegE)
+	Cont:=0
+	Cont1:=0
+	Mientras NFDA(ArchE) hacer
+		Cont:= Cont+1
+		Si (RegE.FechaPico.Dia=1) y (RegE.FechaPico.Mes=5) entonces
+			Cont1:= Cont1+1
+		FinSi
+		Leer(ArchE,RegE)
+	FinMientras
+	Escribir("Se incluyeron " Cont " videos")
+	Escribir("El " (Cont1/Cont)*100 "% de videos son de la fecha 01/05")
+	Cerrar(ArchE)
+FinAccion

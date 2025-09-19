@@ -1,0 +1,92 @@
+//Se dispone de un archivo con datos de los alumnos de la U.T.N. con la siguiente información para cada alumno:
+//PRODUCTOS Ordenado por Sexo, Carrera, Nro_Legajo
+//Sexo | Carrera | Nro_Legajo | Fecha_Ingreso | Total_Materias_Aprobadas
+//Se desea un listado con el siguiente detalle por sexo, carrera y total general
+//Total de alumnos que ingresaron en el año 2009 con más de 20 materias aprobadas.
+//Total de alumnos que ingresaron en el año 2009 con menos de 20 materias aprobadas
+
+Accion 2211 es 
+	AMBIENTE
+		Fecha = Registro
+			AA: N(4)
+			MM: 1...12
+			DD: 1...31
+		FinRegistro
+
+		Productos = Registro
+			Sexo: {"M", "F"}
+			Carrera: {"ISI", "IEM", "IQ"}
+			Nro_Legajo: N(6)
+			Fecha_Ingreso: Fecha
+			Total_Materias_Aprobadas: N(2)
+		FinRegistro
+
+		Arch: archivo de Productos ordenado por Sexo, Carrera, Nro_Legajo
+		Reg: Productos
+		ResS: {"M", "F"}
+		ResC: {"ISI", "IEM", "IQ"}
+		cCmas20, cCmen20, cSmas20, cSmen20, cTmas20, cTmen20: entero
+
+		Procedimiento corteC() es 
+			Escribir("De los alumnos de la carrera ", ResC, ", ingresados en el 2009, ", cCmas20, " tienen mas de 20 materias aprobadas")
+			Escribir("De los alumnos de la carrera ", ResC, ", ingresados en el 2009, ", cCmen20, " tienen menos de 20 materias aprobadas")
+			cSmas20:= cSmas20 + cCmas20
+			cSmen20:= cSmen20 + cCmen20
+			cCmas20:= 0
+			cCmen20:= 0
+			ResC:= Reg.Carrera 
+		FinProcedimiento
+
+		Procedimiento corteS() es 
+			corteC()
+			Escribir("De los alumnos ", ResS, ", ingresados en el 2009, ", cSmas20, " tienen mas de 20 materias aprobadas")
+			Escribir("De los alumnos ", ResS, ", ingresados en el 2009, ", cSmen20, " tienen menos de 20 materias aprobadas")
+			cTmas20:= cTmas20 + cSmas20
+			cTmen20:= cTmen20 + cSmen20
+			cSmas20:= 0
+			cSmen20:= 0
+			ResS:= Reg.Sexo
+		FinProcedimiento
+
+	PROCESO
+		Abrir E/ (Arch)
+		Leer(Arch, Reg)
+
+		cCmas20:= 0 
+		cCmen20:= 0
+		cSmas20:= 0 
+		cSmen20:= 0 
+		cTmas20:= 0 
+		cTmen20:= 0
+
+		ResC:= Reg.Carrera
+		ResS:= Reg.Sexo
+
+		Mientras NFDA(Arch) hacer
+			Si ResS <> Reg.Sexo entonces
+				corteS()
+			Sino
+				Si ResC <> Reg.Carrera entonces
+					corteC()
+				FinSi
+			FinSi
+
+			Si Reg.Fecha_Ingreso.AA = 2009 entonces
+				Si Reg.Total_Materias_Aprobadas >= 20 entonces
+					cCmas20:= cCmas20 + 1
+				Sino
+					cCmen20:= cCmen20 + 1
+				FinSi
+			FinSi
+
+			Leer(Arch, Reg)
+		FinMientras
+
+		corteS()
+
+		Escribir("El numero de alumnos ingresados en 2009, que tienen mas de 20 materias aprobadas es de ", cTmas20)
+		Escribir("El numero de alumnos ingresados en 2009, que tienen menos de 20 materias aprobadas es de ", cTmen20)
+
+		Cerrar(Arch)
+	FinProceso
+FINACCION

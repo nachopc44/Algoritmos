@@ -1,0 +1,28 @@
+//Escribir una función que lea desde el teclado las unidades y el precio de un producto que se quiere comprar, y en función de las unidades introducidas calcule un descuento o no, según corresponda: cuando las unidades excedan media docena se aplicará 4% y el 10% cuando excedan la docena. La función debe devolver como resultado el valor del descuento o cero, en caso de que no corresponda.
+
+Accion 126 es 
+	AMBIENTE
+		precio: real 
+		unid: entero 
+		Funcion descuento(u:entero, p: real):real
+			Si (u>6) y (u<=12) entonces
+				descuento:= (u*p)*0,04
+			Sino
+				Si u>12 entonces
+					descuento:= (u*p)*0,10 
+				Sino
+					descuento:= 0 
+				FinSi
+			FinSi
+		FinFuncion
+
+	PROCESO
+		Escribir("Ingrese el precio del producto y la cantidad que desea comprar")
+		Leer(precio, unid)
+		Si (descuento(unid, precio) > 0) entonces
+			Escribir("El valor de descuento que se aplica es de ", descuento(unid, precio))
+		Sino
+			Escribir("No corresponde ningun descuento")
+		FinSi
+	FinProceso
+FINACCION

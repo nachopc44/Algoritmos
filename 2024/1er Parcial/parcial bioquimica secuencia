@@ -1,0 +1,106 @@
+Accion pbio es
+
+AMBIENTE
+Sec1: secuencia de caracteres
+V1: caracter 
+SecS: secuencia de caracteres
+EstudioA, EstudioE, EstudioI, CantEst, TotEst, i: entero
+
+Funcion AEntero(dig:caracter):entero es
+	Segun dig hacer
+		="0": AEntero:=0
+		="1": AEntero:=1
+		="2": AEntero:=2
+		="3": AEntero:=3
+		="4": AEntero:=4
+		="5": AEntero:=5
+		="6": AEntero:=6
+		="7": AEntero:=7
+		="8": AEntero:=8
+		="9": AEntero:=9
+	FinSegun
+FinFuncion
+
+PROCESO
+	arr(Sec1)
+	avz(Sec1,V1)
+	crear(SecS)
+	EstudioA:=0
+	EstudioE:=0
+	EstudioI:=0
+	CantEst:=0
+	TotEst:=0
+
+	Mientras V1<>"*" hacer
+		Si V1="A" entonces
+			Mientras V1<>"," hacer
+				avz(Sec1,V1)
+			FinMientras
+			CantEst:=0
+			avz(Sec1,V1)
+			CantEst:= CantEst+(AEntero(V1)*10)
+			avz(Sec1,V1)
+			CantEst:= CantEst+AEntero(V1)
+			avz(Sec1,V1)
+			Para i:= 1 a CantEst hacer
+				Si V1="E" entonces
+					EstudioE:= EstudioE+1
+					Para i:= 1 a 4 hacer
+						grabar(SecS,V1)
+						avz(Sec1,V1)
+					FinPara
+				Sino
+					Si V1="A" entonces
+						EstudioA:= EstudioA+1
+						Para i:= 1 a 4 hacer
+							avz(Sec1,V1)
+						FinPara
+					Sino
+						EstudioI:= EstudioI+1
+						Para i:= 1 a 4 hacer
+							avz(Sec1,V1)
+						FinPara
+					FinSi 
+				FinSi
+			FinPara
+			grabar(SecS,"#")
+		Sino
+			Mientras V1<>"," hacer
+				avz(Sec1,V1)
+			FinMientras
+			CantEst:=0
+			avz(Sec1,V1)
+			CantEst:= CantEst+(AEntero(V1)*10)
+			avz(Sec1,V1)
+			CantEst:= CantEst+AEntero(V1)
+			avz(Sec1,V1)
+			Para i:= 1 a CantEst hacer
+				Si V1="E" entonces
+					EstudioE:= EstudioE+1
+					Para i:= 1 a 4 hacer
+						avz(Sec1,V1)
+					FinPara
+				Sino
+					Si V1="A" entonces
+						EstudioA:= EstudioA+1
+						Para i:= 1 a 4 hacer
+							avz(Sec1,V1)
+						FinPara
+					Sino
+						EstudioI:= EstudioI+1
+						Para i:= 1 a 4 hacer
+							avz(Sec1,V1)
+						FinPara
+					FinSi
+				FinSi
+			FinPara
+		FinSi
+	FinMientras
+	escribir("Con los estudios de tipo A se ha recaudado $"EstudioA*300)
+	escribir("Con los estudios de tipo E se ha recaudado $"EstudioE*420)
+	escribir("Con los estudios de tipo I se ha recaudado $"EstudioI*670)
+	TotEst:= EstudioA+EstudioE+EstudioI
+	escribir("El porcetaje de estudios de tipo A es de "(EstudioA/TotEst)*100"%")
+	cerrar(Sec1)
+	cerrar(SecS)
+FinAccion

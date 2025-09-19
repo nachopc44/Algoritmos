@@ -1,0 +1,50 @@
+Accion farmacia es
+
+AMBIENTE
+Sec1: secuencia de caracteres 
+V1: caracter 
+SecSVL: secuencia de caracteres
+SecSRE: secuencia de caracteres
+Cont: entero
+
+PROCESO
+	ARR(Sec1)
+	AVZ(Sec1,V1)
+	Cont:=0
+	Mientras NFDS(Sec1) hacer
+		Si V1="@" entonces
+			AVZ(Sec1,V1)
+			Cont:=0
+		FinSi
+		Mientras V1<>"@"	
+			Mientras V1<>"-" hacer
+				Escribir (V1)
+				AVZ(Sec1,V1)
+			FinMientras
+			AVZ(Sec1,V1)
+			Si V1="V" entonces
+				AVZ(Sec1,V1)
+				AVZ(Sec1,V1)
+				Mientras V1<>"#"
+					Escribir(SecSVL,V1)
+					AVZ(Sec1,V1)
+				FinMientras
+				Escribir(SecSVL,V1)
+				AVZ(Sec1,V1)
+			Sino 
+				AVZ(Sec1,V1)
+				AVZ(Sec1,V1)
+				Si V1="G" entonces
+					Cont:= Cont+1
+				FinSi
+				Mientras V1<>"#"
+					Escribir(SecSRE,V1)
+					AVZ(Sec1,V1)
+				FinMientras
+				Escribir(SecSRE,V1)
+				AVZ(Sec1,V1)
+			FinSi
+		FinMientras
+		Escribir("La cantidad de medicamentos de venta con receta linea gastroenterologica es "Cont)   
+	FinMientras
+FinAccion

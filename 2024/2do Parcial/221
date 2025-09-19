@@ -1,0 +1,47 @@
+Accion 221 es 
+
+AMBIENTE 
+Fecha = Registro
+	Año: N(4)
+	Mes: (1..12)
+	Dia: (1..31)
+FinRegistro
+
+Padron = Registro 
+	AyN: AN(30)
+	Carrera: {"ISI", "IEM", "IQ"}
+    Legajo: N(5)
+	Nacimiento: Fecha
+	Ingreso: Fecha
+	DNI: N(8)
+	Sexo: {"M", "F"}
+	UltimoExamenAp: AN(30)
+	Nota: N(2)
+FinRegistro
+ArchE: Archivo de Padron ordenado por AyN
+RegE: Padron
+
+Salida = Registro
+	Nro_Legajo: N(5)
+	Apellido_Nombre: AN(30)
+	Documento: N(8)
+	Carrera: {"ISI", "IEM", "IQ"}
+FinRegistro
+ArchS: Archivo de Salida ordenado por Nro_Legajo
+RegS: Salida
+
+PROCESO
+	Abrir e/ (ArchE)
+	Abrir /s (ArchS)
+	Leer(ArchE,RegE)
+	Mientras NFDA(ArchE) hacer
+		RegS.Nro_Legajo:= RegE.Legajo
+		RegS.Apellido_Nombre:= RegE.AyN
+		RegS.Documento:= RegE.DNI
+		RegS.Carrera:= RegE.Carrera
+		Grabar(ArchS,RegS)
+		Leer(ArchE,RegE)
+	FinMientras
+	Cerrar(ArchE)
+	Cerrar(ArchS)
+FinAccion

@@ -1,0 +1,80 @@
+accion psb es
+
+AMBIENTE
+
+s1: secuencia de caracter
+v1: caracter
+ss: secuencia de caracter
+vs: caracter
+EstA, EstE, EstI: enteros
+
+PROCESO 
+
+ACCION SECUENCIA ES
+Ambiente
+S: secuencia de caracteres
+V1: caracteres
+SecS: caracteres
+v2: caracteres
+TipoA: entero
+TipoE: entero
+TipoI: entero
+cantidadA: entero
+total: entero
+i: entero
+
+Proceso
+ARR(S)
+AVZ(S,V1)
+CREAR(SecS;V2)
+TipoA:=0
+TipoE:=0
+TipoI:=0
+CantidadA:=0
+Total:=0
+Mientras V1<>"*" hacer
+   Si v1=A entonces
+     Mientras v1<> "," hacer
+	 AVZ(S;V1)
+	 Fin_mientras //me quedo en la coma
+	 para i:=1 a 2 entonces
+	 AVZ(S,V1) //me quedo en la primera letra del codigo
+	 Si v1= "E" entonces 
+	   grabar (secS, v2)
+	   TipoE:= TipoE + 420
+	   Total:= total + 1
+	 Sino
+	  Si V1= "A" entonces
+	    TipoA:= TipoA + 300
+		CantidadA:= cantidadA + 1
+		total:= total + 1
+	 Sino 
+	  Si V1= "I" entonces
+	    TipoI: TipoI + 670
+		total:= total + 1
+	 Finsi 
+	Sino 
+	 Si V1<> "A" entonces
+	   Mientras V1<> ","
+	     AVZ (S,V1)
+	   Fin_mientras
+	   para i: 1 a 2 entonces
+	   AVZ(S,V1)
+	   Si v1= "E" entonces
+	     TipoE:= tipoE + 420
+		 total:= total + 1
+	   Sino
+	     Si v1="A" entonces
+		  TipoA:= TipoA + 300
+		  total:= total + 1
+		  CantidadA:= CantidadA + 1
+	   Sino 
+	     Si v1= "I" entonces
+		  TipoI:= TipoI + 670
+		  total:= total + 1
+	   Finsi
+	Finsi
+Fin_mientras
+Esc("El informe recaudado por tipo de estudio es:" TipoA; TipoE; TipoI)
+Esc("El porcentaje de estudios A sobre el total de estudios es:"CantidadA * total/100)
+FinACCION

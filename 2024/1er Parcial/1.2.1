@@ -1,0 +1,20 @@
+//Realice una función que dado un número devuelva su cuadrado.
+
+ACCION 121 ES
+
+	AMBIENTE
+		num: entero 
+
+		PROCEDIMIENTO pedir_num() ES
+			escribir("Ingrese numero")
+			leer(num) 
+		FINSUB
+
+		FUNCION cal_cuadrado (num: entero): entero ES
+		cal_cuadrado:= num * num
+		FINSUB
+
+	PROCESO
+		pedir_num
+		escribir("El valor al cuadrado del nuemero"num"es:"cal_cuadrado(num))
+FINACCION

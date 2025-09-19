@@ -1,0 +1,11 @@
+program ejemploIF;
+
+var
+n:integer;
+
+begin
+    writeln('Decime un numero');
+    readln(n);
+    if n>0 then writeln('Es positivo')
+    else writeln('Es negativo o cero');
+end.

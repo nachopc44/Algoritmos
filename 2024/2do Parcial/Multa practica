@@ -1,0 +1,53 @@
+Accion multa es
+
+AMBIENTE
+Fecha = Registro
+	Año: N(4)
+	Mes: (1..12)
+	Dia: (1..31)
+FinRegistro
+
+Multas = Registro
+	ID_Multa: N(5)
+	FechaM: Fecha
+	DNI: N(8)
+	Motivo: AN(100)
+	Monto: N(7.2)
+FinRegistro
+ArchE, ArchE1: Archivo de Multas ordenado por ID_Multa
+RegE: Multas
+
+Salida = Registro
+	ID_Multa: N(5)
+	FechaS: Fecha
+	DNI: N(8)
+	Lugar: AN(200)
+	Hora: N(2)
+	Pagado: {"Si","No"}
+FinRegistro
+ArchS: Archivo de Salida ordenado por ID_Multa
+RegS: Salida
+
+PROCESO
+	Abrir e/ (ArchE)
+	Abrir /s (ArchE1)
+	Abrir /s (ArchS)
+	Leer(ArchE,RegE)
+	Mientras NFDA(ArchE) hacer
+		Si (RegE.FechaM.Año=2023) y (RegE.FechaM.Mes=12) entonces
+			Grabar(ArchE1,RegE)
+			RegS.ID_Multa:= RegE.ID_Multa
+			RegS.FechaS:= RegE.FechaM
+			RegS.DNI:= RegE.DNI
+			Escribir("Ingresar lugar y hora de donde se efectuo la multa")
+			Leer(RegS.Lugar)
+			Leer(RegS.Hora)
+			Escribir("Se pago la multa?")
+			Leer(RegS.Pagado)
+			Grabar(ArchS,RegS)
+		FinSi
+		Leer(ArchE,RegE)
+	FinMientras
+	Cerrar(ArchE)
+	Cerrar(ArchS)
+FinAccion		

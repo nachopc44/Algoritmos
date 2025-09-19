@@ -1,0 +1,46 @@
+//Dada una secuencia de caracteres de entrada, desarrollar un algoritmo que produzca 2 secuencias de salida, una con los caracteres "numéricos" y otra con los que no lo son. Informar al final, cantidad de caracteres de cada secuencia de salida. Ejemplo: Si en la secuencia de entrada viniera A125EB% en la salida debería ir: salida1 --> 125 ; salida2 --> AEB%
+
+Accion 222 es 
+	AMBIENTE
+		sec1, secC, secN: secuencia de caracter
+		v1: caracter
+		CantC, CantN: entero
+
+		Función esDig(c:caracter):booleano es
+			Ambiente
+				num = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+			Proceso
+				Si (c en num) entonces
+					esDig:= verdadero
+				Sino
+					esDig:= falso
+				FinSi
+			FinProceso
+		FinFuncion
+
+	PROCESO
+		arr(sec1)
+		avz(sec1,v1)
+		crear(secC)
+		crear(secN)
+		CantC:=0
+		CantN:=0
+
+		Mientras NFDS(sec1) hacer
+			Si (esDig(v1) = verdadero) entonces
+				grabar(secN,v1)
+				CantN:= CantN + 1
+			Sino
+				grabar(secC,v1)
+				CantC:= CantC + 1
+			FinSi
+			avz(sec1,v1)
+		FinMientras
+		cerrar(sec1)
+		cerrar(secC)
+		cerrar(secN)
+
+		Escribir("En la secuencia de caracteres hay un total de ", CantC, " caracteres")
+		Escribir("En la secuencia de numeros hay un total de ", CantN, " digitos")
+	FinProceso
+FINACCION

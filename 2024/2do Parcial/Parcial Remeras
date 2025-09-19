@@ -1,0 +1,82 @@
+Accion parcial es (A: arreglo [1..26] de reales)
+
+AMBIENTE 
+Productos = Registro 
+	Id_Producto: N(5)
+	Nombre: AN(30)
+	Descripcion: AN(50)
+	Categoria: {"C","R","G","S"}
+	Nuev_Lanz: {"Si","No"}
+	Porc_Descuento: (0...1) 
+	Precio: N(5)
+	Stock: N(3)
+FinRegistro 
+
+ArchMae, ArchMaeAct: Archivo de Productos ordenado por Id_Producto
+RegMae, RegMaeAct: Productos
+
+Preventas = Registro
+	Id_Producto: N(5)
+	Id_Cliente: N(5)
+	Cantidad: N(3)
+	Es_Personalizado: {"Si","No"}
+	Nro_Jugador: (1...26)
+	Nmbr_Jug: AN(30) 
+	Talle: N(2)
+FinRegistro
+
+ArchMov: Archivo de Preventas ordenado por Id_Producto y Id_Cliente
+RegMov: Preventas 
+
+Faltante, CatC, CatR, CatG, CatS, ImporteTot: entero 
+B: arreglo [1..4][1..27] de reales
+
+Procedimiento LeerMae() es 
+	Leer(ArchMae,RegMae)
+	Si FDA(ArchMae) entonces
+		RegMae.Id_Producto:= HV
+	FinSi
+FinProcedimiento
+
+Procedimiento LeerMov() es 
+	Leer(ArchMov,RegMov)
+	Si FDA(ArchMov) entonces
+		RegMov.Id_Producto:= HV
+	FinSi
+FinProcedimiento
+
+Procedimiento IniciarArr() es 
+	Para i:=1 a 27 hacer
+		Para j:=1 a 4 hacer
+			B[i,j]:=0
+		FinPara
+	FinPara
+FinProcedimiento 
+
+
+PROCESO
+Abrir e/ (ArchMae)
+Abrir e/ (ArchMov)
+Abrir /s (ArchMaeAct)
+LeerMae()
+LeerMov()
+
+
+Mientras (RegMae.Id_Producto<>HV) o (RegMov.Id_Producto<>HV) hacer 
+	Si (RegMae.Id_Producto = RegMov.Id_Producto) entonces
+		Mientras (RegMae.Id_Producto = RegMov.Id_Producto) hacer
+			Si (RegMae.Stock < RegMov.Cantidad) entonces
+				Escribir("No hay stock")
+				Faltante:= RegMov.Cantidad - RegMae.Stock
+			Sino 
+				RegMae.Stock:= RegMae.Stock - RegMov.Cantidad
+				Segun (RegMae.Categoria) hacer
+					="C": j:=1
+					="R": j:=2
+					="G": j:=3
+					="S": j:=4
+				FinSegun
+				i:= RegMov.Nro_Jugador
+				B[i,j]:= B[i,j] + RegMov.Cantidad
+				B[27,j]:= B[27,j] + RegMov.Cantidad
+				ImporteTot:= (RegMae.Precio * RegMae.Porc_Descuento) * RegMae.Cantidad

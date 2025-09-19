@@ -1,0 +1,75 @@
+Accion 2219 es 
+
+AMBIENTE 
+Fecha = Registro
+	DD: 1..31
+	MM: 1..12
+	AA: N(4)
+FinRegistro
+
+Mae_Remedios = Registro
+	Clave = Registro
+		Farmacia: AN(30)
+		Medicamento: AN(30)
+	FinRegistro
+	Cant_Actual: N(5)
+	Fecha_Vencimiento: Fecha 
+FinRegistro
+Mae, MaeS: archivo de Mae_Remedios ordenado por Clave
+RegMae: Mae_Remedios
+
+Movimientos = Registro
+	Clave = Registro
+		Farmacia: AN(30)
+		Medicamento: AN(30)
+		Cod_Mov: 1..3
+	FinRegistro
+	Cant_Recibida: N(5) 
+FinRegistro
+Mov: archivo de Movimientos ordenado por Clave
+RegMov: Movimientos
+
+Rem_Venc = Registro
+	Medicamento: AN(30)
+	Cant_Vencida: N(5) 
+FinRegistro
+Vencidos: archivo de Rem_Venc
+RegVenc: Rem_Venc
+
+Subaccion Leer_Maestro() es 
+	Leer(Mae,RegMae)
+	Si FDA(Mae) entonces
+		RegMae.Clave:= HV
+	FinSi 
+FinSubaccion
+
+Subaccion Leer_Movimiento() es
+	Leer(Mov, RegMov)
+	Si FDA(Mov) entonces
+		RegMov.Clave:= HV
+	FinSi
+FinSubaccion
+
+PROCESO
+Abrir e/ (Mae); Leer_Maestro()
+Abrir e/ (Mov); Leer_Movimiento()
+Abrir e/ (Vencidos); Leer(Vencidos)
+Abrir /s (MaeS)
+
+Mientras (RegMae.Clave <> HV) o (RegMov.Clave <> HV) hacer
+	Si RegMae.Clave < RegMov.Clave hacer
+		Grabar(MaeS, RegMae)
+		Leer_Maestro()
+	Sino 
+		Si RegMae.Clave = RegMov.Clave entonces
+			Si RegMov.Clave.Cod_Mov = 1 entonces
+				Escribir("Error")
+			Sino
+				Si RegMae.Clave.Cod_Mov = 2 entonces
+					RegVenc.Clave:= RegMov.Clave.Cant_Recibida
+					RegVenc.Clave:= RegMov.Cant_Recibida
+					Grabar(Vencidos, RegVenc)
+				Sino
+					RegMae.Cant_Actual:= RegMae.Cant_Actual + RegMov.Cant_Recibida
+					Grabar(MaeS, RegMae)
+				FinSi

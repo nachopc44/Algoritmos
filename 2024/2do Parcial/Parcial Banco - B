@@ -1,0 +1,66 @@
+Accion PBanco es 
+    
+    Ambiente
+        Claves = Registro
+            Id_sucursal: N(4)
+            Id_cliente: N(4)
+        FinRegistro 
+
+        Fecha = Registro 
+            DD: (1..31)
+            MM: (1..12)
+            AA: N(4)
+        FinRegistro
+
+        Clientes = Registro
+            Clave: Claves
+            Nombre_y_apellido: AN(30)
+            Saldo_a_la_fecha: N(10)
+            Fecha_alta: Fecha 
+            Fecha_baja: Fecha
+        FinRegistro
+
+        Movimientos = Registro
+            Clave: Claves
+            Cod_movimiento: (0..99)
+            Nombre_y_apellido: N(30)
+            Fecha_movimiento: Fecha
+            Monto: N(10)
+            Detalle: AN(10)
+            Categoria: (1..6)
+            Tipo: {"I","E"}
+        FinRegistro
+
+        Mae, MaeAct: archivo de Clientes ordenado por Clave 
+        RMae, RMaeAct, Aux: Clientes
+
+        Mov: archivo de Movimientos ordenado por Clave y Cod_movimiento
+        RMov: Movimientos 
+
+        Bajas: entero 
+
+        Procedimiento LeerMae() es
+            Leer(Mae, RMae)
+            Si FDA(Mae) entonces 
+                RMae.Clave:= HV
+            FinSi 
+        FinProcedimiento 
+
+        Procedimiento LeerMov() es
+            Leer(Mov, RMov)
+            Si FDA(Mov) entonces
+                RMov.Clave:= HV
+            FinSi
+        FinProcedimiento
+
+    Proceso 
+        Abrir e/ (Mae)
+        Abrir e/ (Mov)
+        Abrir /s (MaeAct)
+        LeerMov()
+        LeerMae()
+        Bajas:= 0
+
+        Mientras (RMae.Clave <> HV) o (RMov.Clave <> HV) hacer
+            Si RMae.Clave < RMov.Clave entonces
+                RMaeAct:= RMae

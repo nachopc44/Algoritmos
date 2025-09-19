@@ -1,0 +1,68 @@
+//Dados el siguiente fichero con datos de un censo de la ciudad de Resistencia:
+//CENSO Ordenado por Radio, Manzana, Nro_Vivienda
+//Radio | Manzana | Nro_Vivienda | Condicion_Vivienda | Cantidad_Habitantes
+//Condición puede ser: Muy Buena, Buena o Mala. Obtener los siguientes totales de personas que habitan en viviendas cuya condición es muy buena: total en la ciudad y totales por Radio y Manzana).
+
+Accion 2214 es 
+	AMBIENTE
+		CENSO = Registro
+			Radio: N(3)
+			Manzana: N(3)
+			Nro_Vivienda: N(3)
+			Condicion_Vivienda: {"MB","B","M"}
+			Cantidad_Habitantes: N(2)
+		FinRegistro
+
+		Arch: Archivo de CENSO ordenado por Radio, Manzana, Nro_Vivienda
+		Reg: CENSO
+		ResRad: N(3)
+		ResMan: N(3)
+		ResViv: N(3)
+		TotCiu, TotRad, TotMan: entero
+
+		Procedimiento corteMan() es 
+			Escribir("En la manzana ", ResMan, " viven ", TotMan, " habitantes en muy buenas condiciones")
+			TotRad:= TotRad + TotMan
+			TotMan:= 0 
+			ResMan:= Reg.Manzana
+		FinProcedimiento
+
+		Procedimiento corteRad() es
+			corteMan()
+			Escribir("En el radio", ResRad, " viven ", TotRad, " habitantes en muy buenas condiciones")
+			TotCiu:= TotCiu + TotRad
+			TotRad:= 0
+			ResRad:= Reg.Radio
+		FinProcedimiento
+
+	PROCESO
+		Abrir E/ (Arch)
+		Leer(Arch,Reg)
+
+		TotCiu:= 0
+		TotRad:= 0
+		TotMan:= 0
+		ResRad:= Reg.Radio
+		ResMan:= Reg.Manzana
+
+		Mientras NFDA(Arch) hacer
+			Si (ResRad <> Reg.Radio) entonces
+				corteRad()
+			Sino
+				Si (ResMan <> Reg.Manzana) entonces
+					corteMan()
+				FinSi
+			FinSi
+
+			Si (Reg.Condicion_Vivienda = "MB") entonces
+				TotMan:= TotMan + Reg.Cantidad_Habitantes
+			FinSi
+
+			Leer(Arch,Reg)
+		FinMientras
+
+		corteRad()
+		Escribir("En esta ciudad hay un total de ", TotCiu, " habitantes que viven en muy buenas condiciones")
+		Cerrar(Arch)
+	FinProceso
+FINACCION

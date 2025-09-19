@@ -1,0 +1,43 @@
+//Se tiene una secuencia de enteros que contiene todos los CUIT de los empleados de una empresa, la misma termina con el CUIT 0. Para evitar largas esperas en los días de pago, la empresa necesita organizarlos de acuerdo al último dígito de su documento, generar una secuencia con los CUIT de las personas que su número de documento termine con 0, 1, 2 o 3.
+
+Accion 217 es
+	AMBIENTE
+		sec1, sec2: secuencia de entero
+		i, v1, cuit, peso: entero
+		seguir: booleano
+		dni = (0, 1, 2, 3)
+
+	PROCESO
+		arr(sec1)
+		avz(sec1,v1)
+		crear(sec2)
+		cuit:= 0
+		peso:= 10000000000
+		seguir:= verdadero 
+
+		Mientras (seguir = verdadero) hacer
+			Si v1<>0 entonces
+				cuit:= v1*peso
+				Para i:= 1 a 9 hacer
+					avz(sec1,v1)
+					peso:= peso DIV 10
+					cuit:= cuit + v1 * peso
+				FinPara
+				Si (v1 en dni) entonces
+					avz(sec1,v1)
+					peso:= peso DIV 10
+					cuit:= cuit + v1 * peso
+					grabar(sec2,cuit)
+					avz(sec1,v1)
+				Sino
+					avz(sec1,v1)
+					avz(sec1,v1)
+				FinSi
+				cuit:= 0
+				peso:= 10000000000
+			Sino
+				seguir:= falso
+			FinSi				
+		FinMientras
+	FinProceso
+FINACCION

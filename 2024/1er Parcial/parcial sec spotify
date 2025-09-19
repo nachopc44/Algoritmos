@@ -1,0 +1,181 @@
+Accion spotify es 
+
+AMBIENTE
+Sec1: secuencia de caracteres
+V1: caracter
+Sec2: secuencia de caracteres
+V2: caracter
+SecS: secuencia de caracteres
+TotPlaylist, TotCanciones, PlaylistR, PlaylistP, PlaylistE, PlaylistF, ContR, ContP, ContE, ContF, CantCanciones, i: entero
+
+Funcion ConvEntero(dig:caracter):entero es
+	Segun dig hacer
+		="0": ConvEntero:=0
+		="1": ConvEntero:=1
+		="2": ConvEntero:=2
+		="3": ConvEntero:=3
+		="4": ConvEntero:=4
+		="5": ConvEntero:=5
+		="6": ConvEntero:=6
+		="7": ConvEntero:=7
+		="8": ConvEntero:=8
+		="9": ConvEntero:=9
+	FinSegun
+FinFuncion
+		
+
+PROCESO
+	arr(Sec1)
+	avz(Sec1,V1)
+	arr(Sec2)
+	avz(Sec2,V2)
+	crear(SecS)
+	TotPlaylist:=0
+	TotCanciones:=0
+	PlaylistR:=0
+	PlaylistP:=0
+	PlaylistE:=0
+	PlaylistF:=0 
+	ContR:=0 
+	ContP:=0 
+	ContE:=0 
+	ContF:=0 
+	CantCanciones:=0
+
+	Mientras NFDS(Sec1) hacer
+		avz(Sec1,V1)
+		avz(Sec2,V2)
+		CantCanciones:=0
+		Mientras V1<>"?" hacer 
+			Si V1="R" entonces
+				ContR:= ContR+1
+				avz(Sec1,V1)
+				Mientras V1<>"+" hacer
+					avz(Sec1,V1)
+					Grabar(SecS,V1)
+				FinMientras
+				Para i:=1 a 3 hacer
+					avz(Sec1,V1)
+					Mientras V1<>"+"	
+						avz(Sec1,V1)
+					FinMientras
+				FinPara
+				avz(Sec1,V1)
+				CantCanciones:= CantCanciones+(ConvEntero(V1)*100)
+				avz(Sec1,V1)
+				CantCanciones:= CantCanciones+(ConvEntero(V1)*10)
+				avz(Sec1,V1)
+				CantCanciones:= CantCanciones+ConvEntero(V1)
+				PlaylistR:= PlaylistR+CantCanciones
+				Para i:= 1 a CantCanciones hacer
+					Mientras V2<>"#" hacer
+						Grabar(SecS,V2)
+						avz(Sec2,V2)
+					FinMientras
+					Grabar(SecS,"+")
+					Para i:=1 a 2 hacer
+						avz(Sec2,V2)
+						Mientras V2<>"#" hacer
+							avz(Sec2,V2)
+						FinMientras
+					FinPara
+					avz(Sec2,V2)
+					Mientras V2<>"/" hacer
+						Grabar(SecS,V2)
+						avz(Sec2,V2)
+					FinMientras
+				FinPara
+				Grabar(SecS,"#")
+				Mientras V1<>"?" hacer
+					avz(Sec1,V1)
+				FinMientras
+			Sino
+				Si V1="P" entonces
+					ContP:= ContP+1
+					avz(Sec1,V1)
+					Para i:=1 a 4 hacer
+						avz(Sec1,V1)
+						Mientras V1<>"+" hacer
+							avz(Sec1,V1)
+						FinMientras
+					FinPara
+					avz(Sec1,V1)
+					CantCanciones:= CantCanciones+ConvEntero(V1)*100
+					avz(Sec1,V1)
+					CantCanciones:= CantCanciones+ConvEntero(V1)*10
+					avz(Sec1,V1)
+					CantCanciones:= CantCanciones+ConvEntero(V1)
+					PlaylistP:= PlaylistP+CantCanciones
+					Para i:= 1 a CantCanciones hacer
+						avz(Sec2,V2)
+						Mientras V2<>"/" hacer
+							avz(Sec2,V2)
+						FinMientras
+					FinPara
+				Sino
+					Si V1="E" entonces
+						ContE:= ContE+1
+						avz(Sec1,V1)
+						Para i:=1 a 4 hacer
+							avz(Sec1,V1)
+							Mientras V1<>"+" hacer
+								avz(Sec1,V1)
+							FinMientras
+						FinPara
+						avz(Sec1,V1)
+						CantCanciones:= CantCanciones+ConvEntero(V1)*100
+						avz(Sec1,V1)
+						CantCanciones:= CantCanciones+ConvEntero(V1)*10
+						avz(Sec1,V1)
+						CantCanciones:= CantCanciones+ConvEntero(V1)
+						PlaylistE:= PlaylistE+CantCanciones
+						Para i:= 1 a CantCanciones hacer
+							avz(Sec2,V2)
+							Mientras V2<>"/" hacer
+								avz(Sec2,V2)
+							FinMientras
+						FinPara
+					Sino
+						ContF:= ContF+1
+						avz(Sec1,V1)
+						Para i:=1 a 4 hacer
+							avz(Sec1,V1)
+							Mientras V1<>"+" hacer
+								avz(Sec1,V1)
+							FinMientras
+						FinPara
+						avz(Sec1,V1)
+						CantCanciones:= CantCanciones+ConvEntero(V1)*100
+						avz(Sec1,V1)
+						CantCanciones:= CantCanciones+ConvEntero(V1)*10
+						avz(Sec1,V1)
+						CantCanciones:= CantCanciones+ConvEntero(V1)
+						PlaylistF:= PlaylistF+CantCanciones
+						Para i:= 1 a CantCanciones hacer
+							avz(Sec2,V2)
+							Mientras V2<>"/" hacer
+								avz(Sec2,V2)
+							FinMientras
+						FinPara
+					FinSi 
+				FinSi
+			FinSi
+		FinMientras
+	FinMientras
+	TotPlaylist:= ContR+ContP+ContE+ContF
+	Escribir("El total de playlists es; " (ContR/TotPlaylist)*100 "% playlists de musica rock, un " (ContP/TotPlaylist)*100 "% son de pop, " (ContE/TotPlaylist)*100 "% son electronicas y " (ContF/TotPlaylist)*100 "% son de folklore")
+	Escribir("La cantidad promedio de canciones por playlist es de" TotCanciones/TotPlaylist)
+	Si PlaylistR>PlaylistP y PlaylistR>PlaylistE y PlaylistR>PlaylistF entonces
+		Escribir("El genero de playlist con mayor cantidad de canciones es de Rock")
+	Sino
+		Si PlaylistP>PlaylistR y PlaylistP>PlaylistE y PlaylistP>PlaylistF 
+			Escribir("El genero de playlist con mayor cantidad de canciones es de Pop")
+		Sino
+			Si PlaylistE>PlaylistR y PlaylistE>PlaylistP y PlaylistE>PlaylistF entonces 
+				Escribir("El genero de playlist con mayor cantidad de canciones es de Electronica")
+			Sino
+				Escribir("El genero de playlist con mayor cantidad de canciones es de Folklore")
+			FinSi
+		FinSi 
+	FinSi
+FinAccion

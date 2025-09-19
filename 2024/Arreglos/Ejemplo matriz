@@ -1,0 +1,45 @@
+Accion matriz es 
+
+AMBIENTE
+i, j, sumaf, sumac, sumad, mediatot: entero
+A: arreglo [1..4,1..4] de enteros
+
+PROCESO
+	mediatot:=0
+	sumac:=0
+	sumad:=0
+	sumaf:=0
+
+	Para i:= 1 a 4 hacer
+		Para j:= 1 a 4 hacer
+			Escribir("Ingresar un valor para la coordenada ", i", ", j)
+			Leer(A[i,j])
+			mediatot:= mediatot + A[i,j]
+		FinPara
+	FinPara
+
+	Escribir("Ingresar fila de 1 a 4 para sumar")
+	Leer(i)
+	Para j:= 1 a 4 hacer
+		sumaf:= sumaf + A[i,j]
+	FinPara
+	Escribir("La suma de esta fila es ", sumaf)
+
+	Escribir("Ingresar columna de 1 a 4 para sumar")
+	Leer(j)
+	Para i:= 1 a 4 hacer
+		sumac:= sumac + A[i,j]
+	FinPara
+	Escribir("La suma de esta columna es ", sumac)
+
+	i:=1
+	j:=1
+	Mientras i<=4 y j<=4 hacer
+		sumad:= sumad + A[i,j]
+		i:= i + 1
+		j:= j + 1
+	FinMientras
+	Escribir("La suma de la diagonal principal es ", sumad)
+
+	Escribir("La media total de la matriz es ", mediatot/16)
+FinAccion

@@ -1,0 +1,48 @@
+ACCION P2 ES
+
+AMBIENTE
+
+sec1: secuencia de caracteres
+v1: caracter
+secS: secuencia de caracteres
+resE, resP, resY, resZona: entero 
+zona: caracter 
+
+PROCESO 
+
+arr(sec1)
+avz(sec1,v1)
+crear(secS)
+
+mientras NFDS(sec1) hacer
+	escribir("Escribir la zona de A a Z")
+	leer(zona)
+	mientras v1<>"@"
+		resE, resP, resY, resZona:=0
+			mientras v1<>"%"
+				avz(sec1,v1)
+			finmientras
+			para i:=1 a 4 hacer
+				avz(sec1,v1)
+			finpara
+			si v1="E" entonces
+				resE:=resE+1
+			sino
+				si v1="P" entonces
+					resP:=resP+1
+				sino
+					resY:=resY+1
+				finsi
+			finsi
+			mientras v1<>"%" hacer
+				avz(sec1,v1)
+			finmientras
+			avz(sec1,v1)
+			si v1=zona entonces
+				resZona:=resZona+1
+			finsi
+
+
+
+
+		 

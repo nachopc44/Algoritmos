@@ -1,0 +1,54 @@
+Accion 2216 es
+
+AMBIENTE
+Fecha = Registro
+	DD: 1..31
+	MM: 1..12
+	AA: 2000..2024
+FinRegistro
+Pelicula = Registro
+	Nro_Pelicula: N(6)
+	Titulo: AN(30)
+	Genero: AN(30)
+	Cant_Copias: N(3)
+	Fecha_Estreno: Fecha
+FinRegistro
+ArchP, ArchPN, ArchAct: Archivo de Pelicula ordenado por Nro_Pelicula
+RegP, RegPN, RegAct: Pelicula
+
+PROCESO
+	Abrir e/ (ArchP)
+	Abrir e/ (ArchPN)
+	Abrir /s (ArchAct)
+	Leer(ArchP,RegP)
+	Leer(ArchPN,RegPN)
+	Leer(ArchAct,RegAct)
+	Mientras NFDA(ArchP) y NFDA(ArchPN) hacer
+		Si RegP.Nro_Pelicula < RegPN.Nro_Pelicula entonces
+			Mientras RegP.Nro_Pelicula < RegPN.Nro_Pelicula hacer
+				RegAct:=RegP 
+				Grabar(ArchAct,RegAct)
+				Leer(ArchP,RegP)
+			FinMientras
+		Sino
+			Mientras RegP.Nro_Pelicula > RegPN.Nro_Pelicula hacer
+				RegAct:=RegPN
+				Grabar(ArchAct,RegAct)
+				Leer(ArchPN,RegPN)
+			FinMientras
+		FinSi 
+	FinMientras
+	Mientras NFDA(ArchP) hacer
+		RegAct:=RegP 
+		Grabar(ArchAct,RegAct)
+		Leer(ArchP,RegP)
+	FinMientras
+	Mientras NFDA(ArchPN) hacer
+		RegAct:=RegPN
+		Grabar(ArchAct,RegAct)
+		Leer(ArchPN,RegPN)
+	FinMientras
+	Cerrar(ArchP)
+	Cerrar(ArchPN)
+	Cerrar(ArchAct)
+FinAccion 

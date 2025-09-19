@@ -1,0 +1,60 @@
+//Hacer un algoritmo que calcule la altura aproximada de un edificio en pies, ingresando como dato la cantidad de pisos del mismo y la altura promedio de cada piso, en metros. (1 m = 3.28 pies)
+
+Accion 1115 es 
+	AMBIENTE
+		MaP = 3.28 
+		pisos: entero 
+		alturaP, alturaE: real
+	
+	PROCESO
+		Escribir("Ingresar el numero de pisos del edificio, y la altura promedio de cada uno")
+		Leer(pisos, alturaP)
+		alturaE:= pisos*(alturaP*MaP)
+		Escribir("La altura aproximada del edificio es de ", alturaE, " pies")
+	FinProceso
+FINACCION
+
+//Modifique el algoritmo del punto 1. para que permita calcular la altura de 50 edificios.
+
+Accion 1115 es 
+	AMBIENTE
+		MaP = 3.28 
+		i, pisos: entero 
+		alturaP, alturaE: real
+	
+	PROCESO
+		Para i:=1 a 50 hacer
+			Escribir("Ingresar el numero de pisos del edificio, y la altura promedio de cada uno")
+			Leer(pisos, alturaP)
+			alturaE:= pisos*(alturaP*MaP)
+			Escribir("La altura aproximada del edificio es de ", alturaE, " pies")
+		FinPara
+	FinProceso
+FINACCION
+
+//Modifique el algoritmo del punto 1. para que permita calcular la altura de una cantidad indeterminada de edificios. Prevea una condición de fin.
+
+Accion 1115 es 
+	AMBIENTE
+		MaP = 3.28 
+		pisos: entero 
+		alturaP, alturaE: real
+		preg: caracter
+		seguir: booleano
+	
+	PROCESO
+		seguir:= verdadero
+		Mientras (seguir=verdadero) hacer
+			Escribir("Ingresar el numero de pisos del edificio, y la altura promedio de cada uno")
+			Leer(pisos, alturaP)
+			alturaE:= pisos*(alturaP*MaP)
+			Escribir("La altura aproximada del edificio es de ", alturaE, " pies")
+
+			Escribir("Desea seguir calculando? si/no")
+			Leer(preg)
+			Si (preg="no") entonces 
+				seguir:= falso
+			FinSi
+		FinMientras
+	FinProceso
+FINACCION

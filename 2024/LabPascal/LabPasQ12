@@ -1,0 +1,82 @@
+program CensoChaco;
+
+var
+  archivo: TextFile;
+  linea: string;
+  Nro_Vivienda: string;
+  Tipo_vivienda: char;
+  Condicion_Vivienda: char;
+  totalParticulares: Integer = 0;
+  muyBuenasParticulares: Integer = 0;
+  porcentaje: Real;
+  i: Integer;
+
+begin
+  Assign(archivo, 'censo_phv.txt');
+  {$I-}
+  Reset(archivo);
+  {$I+}
+  if IOResult <> 0 then
+  begin
+    writeln('Error: No se puede abrir el archivo.');
+    halt(1);
+  end;
+
+  while not Eof(archivo) do
+  begin
+    Readln(archivo, linea);
+    i := 1;
+    while i <= Length(linea) do
+    begin
+      // Leer Nro_Vivienda
+      Nro_Vivienda := '';
+      while (i <= Length(linea)) and (linea[i] <> '#') do
+      begin
+        Nro_Vivienda := Nro_Vivienda + linea[i];
+        Inc(i);
+      end;
+      Inc(i); // Saltar el '#'
+
+      // Leer Tipo_vivienda
+      if i <= Length(linea) then
+      begin
+        Tipo_vivienda := linea[i];
+        Inc(i);
+      end
+      else
+        continue; // Si falta el dato, pasar a la siguiente línea
+
+      // Leer Condicion_Vivienda
+      if i <= Length(linea) then
+      begin
+        Condicion_Vivienda := linea[i];
+        Inc(i);
+      end
+      else
+        continue; // Si falta el dato, pasar a la siguiente línea
+
+      // Validar Tipo_vivienda y Condicion_Vivienda
+      if (Tipo_vivienda in ['P', 'C']) and (Condicion_Vivienda in ['Y', 'B', 'M']) then
+      begin
+        // Procesar los datos
+        if Tipo_vivienda = 'P' then
+        begin
+          Inc(totalParticulares);
+          if Condicion_Vivienda = 'Y' then
+            Inc(muyBuenasParticulares);
+        end;
+      end;
+    end;
+  end;
+
+  Close(archivo);
+
+  // Calcular el porcentaje
+  if totalParticulares > 0 then
+    porcentaje := (muyBuenasParticulares / totalParticulares) * 100
+  else
+    porcentaje := 0;
+
+  // Mostrar el resultado
+  writeln('Porcentaje de viviendas "particulares" en condición "muy buena": ', porcentaje:0:2, '%');
+end.

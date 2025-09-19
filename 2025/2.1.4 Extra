@@ -1,0 +1,57 @@
+//Se dispone de 2 secuencias de caracteres, una contiene caracteres, incluidos espacios y otra contiene caracteres “numéricos”. Se pide crear una nueva secuencia de salida de caracteres donde se copien los caracteres de ambas secuencias en forma alternada, o sea un carácter, un digito, un carácter, un digito, etc. Ejemplo:
+//Sec1: Para habilitar la función de Salas para grupos pequeños para su uso*
+//Sec2: 13481460918460846161334868461086*
+//Salida: P1a3r4a8 1h4….
+
+Accion 224 es 
+	AMBIENTE
+		Sec1: secuencia de caracter 
+		v1: caracter
+		Sec2: secuencia de entero
+		v2: entero
+		SecS: secuencia de caracter
+
+		Funcion ACaracter(n:entero):caracter es 
+			Segun n hacer
+				=0: ACaracter:="0"
+				=1: ACaracter:="1"
+				=2: ACaracter:="2"
+				=3: ACaracter:="3"
+				=4: ACaracter:="4"
+				=5: ACaracter:="5"
+				=6: ACaracter:="6"
+				=7: ACaracter:="7"
+				=8: ACaracter:="8"
+				=9: ACaracter:="9"
+			FinSegun
+		FinFuncion
+	
+	PROCESO
+		arr(Sec1)
+		arr(Sec2)
+		crear(SecS)
+		avz(Sec1,v1)
+		avz(Sec2,v2)
+
+		Mientras (v1<>"*" o v2<>"*") hacer
+			grabar(SecS,v1)
+			grabar(SecS,ACaracter(v2))
+			avz(Sec1,v1)
+			avz(Sec2,v2)
+		FinMientras
+
+		Mientras v1<>"*" hacer
+			grabar(SecS,v1)
+			avz(Sec1,v1)
+		FinMientras
+
+		Mientras v2<>"*" hacer
+			grabar(SecS,ACaracter(v2))
+			avz(Sec2,v2)
+		FinMientras
+
+		cerrar(Sec1)
+		cerrar(Sec2)
+		cerrar(SecS)
+	FinProceso
+FINACCION

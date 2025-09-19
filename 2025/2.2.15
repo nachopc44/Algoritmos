@@ -1,0 +1,17 @@
+//El organismo del cual dependen las escuelas de un distrito lleva un archivo con los registros para todos los alumnos de nivel secundario de ese distrito:
+//ALUMNOS Ordenado por Escuela, Año, División
+//Escuela | Año | División | Nombre | Cant_Inasistencias
+//Se introduce como dato el número de distrito y la cantidad de días de clase dictados en el año. El archivo está ordenado por número de escuela, año y división. Los alumnos que superan el 20% de las inasistencias están en situación de LIBRES, de lo contrario son REGULARES.
+//Se desea conocer:
+//Para cada división: Cantidad de alumnos
+//Para cada año: Cantidad total de alumnos libres - Cantidad de alumnos regulares - Cantidad total de alumnos
+//Todas las escuelas: Cantidad total de alumnos - Porcentaje de alumnos libres. - Promedio de inasistencias por alumnos.
+
+Accion 2215 es 
+	AMBIENTE
+		ALUMNOS = Registro
+			Escuela: AN(30)
+			Año: N(1)
+			División: AN(1)
+			Nombre: AN(30)
+			Cant_Inasistencias: N(2)

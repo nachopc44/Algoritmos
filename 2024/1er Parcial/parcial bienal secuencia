@@ -1,0 +1,98 @@
+Accion parcialbienal es
+
+AMBIENTE
+Sec1: secuencia de caracteres
+V1: caracter 
+SecA: secuencia de caracteres
+SecE: secuencia de caracteres
+SecF: secuencia de caracteres
+i, TotEsc, EscErr, EscA, EscE, EscF: entero
+
+Funcion Aentero(dig:caracter):entero es
+	Segun dig hacer
+		="0": Aentero:=0
+		="1": Aentero:=1
+		="2": Aentero:=2
+	FinSegun
+FinFuncion
+
+PROCESO
+	arr(Sec1)
+	avz(Sec1,V1)
+	crear(SecA)
+	crear(SecE)
+	crear(SecF)
+	TotEsc:=0 
+	EscErr:=0 
+	EscA:=0 
+	EscE:=0 
+	EscF:=0
+
+	Mientras NFDS(Sec1) hacer
+		Si V1="A" entonces
+			TotEsc:= TotEsc+1
+			avz(Sec1,V1)
+			Para i:= 1 a 30 hacer
+				grabar(SecA,V1)
+				avz(Sec1,V1)
+			FinPara
+			Si Aentero(V1)>=2 entonces
+				EscA:= EscA+1
+			FinSi
+			Mientras V1<>"|" hacer
+				grabar(SecA,V1)
+				avz(Sec1,V1)
+			FinMientras
+		Sino
+			Si V1="E" entonces
+				TotEsc:= TotEsc+1
+				avz(Sec1,V1)
+				Para i:= 1 a 30 hacer
+					grabar(SecE,V1)
+					avz(Sec1,V1)
+				FinPara
+				Si Aentero(V1)>=2 entonces
+					EscE:= EscE+1
+				FinSi
+				Para i:= 1 a 3 hacer
+					grabar(SecE,V1)
+					avz(Sec1,V1)
+				FinPara
+				Si V1="a" entonces
+					grabar(SecE,"1")
+					EscErr:= EscErr+1
+				Sino
+					Si V1="e" entonces
+						grabar(SecE,"2")
+						EscErr:= EscErr+1
+					Sino
+						Si V1="i" entonces
+							grabar(SecE,"3")
+							EscErr:= EscErr+1
+						Sino
+							grabar(SecE,V1)
+						FinSi
+					FinSi
+				FinSi
+				avz(Sec1,V1)
+			Sino
+				TotEsc:= TotEsc+1
+				avz(Sec1,V1)
+				Para i:= 1 a 30 hacer
+					grabar(SecF,V1)
+					avz(Sec1,V1)
+				FinPara
+				Si Aentero(V1)>=2 entonces
+					EscF:= EscF+1
+				FinSi
+				Mientras V1<>"|" hacer
+					grabar(SecF,V1)
+					avz(Sec1,V1)
+				FinMientras
+			FinSi
+		FinSi
+		avz(Sec1,V1)
+	FinMientras
+	Escribir("Luego del año 2000, en America comenzaron ", EscA " escultores, en Europa ", EscE "escultores, y en Africa ", EscF " escultores")
+	Escribir("El porcentaje de escultores con informacion erronea es ", (EscErr/TotEsc)*100 "%")
+FinAccion

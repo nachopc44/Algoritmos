@@ -1,0 +1,11 @@
+program MillaMetros;
+
+var 
+    n: integer;
+    
+begin
+    writeln('Ingresar el valor en millas que deseas convertir en metros');
+    readln(n);
+    writeln('El valor ingresado, transformado en metros es: ');
+    write(n*1609);
+end.

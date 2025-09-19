@@ -1,0 +1,24 @@
+Accion 223 es
+
+AMBIENTE
+Socios = Registro
+	NdeSocio: N(5)
+	NdeTelefono: N(10)
+	ApellidoyNombre: AN(30)
+	Carrera: {"ISI", "IEM", "IQ", "LAR"}
+	Domicilio: AN(30)
+	CantUniPrestadas: N(2)
+FinRegistro
+ArchE, ArchS: Archivo de Socios ordenado por NdeSocio
+RegE: Socios
+
+PROCESO
+	Abrir e/ (ArchE)
+	Abrir /s (ArchS)
+	Leer(ArchE,RegE)
+	Mientras NFDA(ArchE) hacer
+		Si (RegE="ISI") y (RegE>4) hacer
+			Grabar(ArchS,RegE)
+		FinSi 
+	Leer(ArchE,RegE)
+FinAccion

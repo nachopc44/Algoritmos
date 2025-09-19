@@ -1,0 +1,53 @@
+Accion cortejub es
+
+AMBIENTE
+Jubilar = registro
+	Clave = registro
+		Regional: AN(3)
+		Carrera: AN(30)
+		Legajo: N(5)
+	FinRegistro
+	Sexo: {"M","F"}
+	Nombre: AN(30)
+FinRegistro
+
+ArchJ: Archivo de Jubilar ordedano por Clave
+RegJ: Jubilar 
+ResR: AN(3) 
+ResC: AN(30)
+
+Salida = registro 
+	Regional: AN(3)
+	Cantidad_Jubilados: N(5)
+FinRegistro
+
+ArchS: Archivo de Salida
+RegS: Salida
+
+Procedimiento cortecar() es
+	ResC:= RegE.Clave.Carrera
+FinProcedimiento
+
+Procedimiento cortereg() es
+	cortecar()
+	ResR:= RegE.Clave.Regional
+FinProcedimiento
+
+PROCESO
+	Abrir e/ (ArchJ)
+	Leer(ArchJ,RegJ)
+	Crear /s (ArchS)
+	ResR:= RegJ.Clave.Regional
+	ResC:= RegJ.Clave.Carrera
+
+	Mientras NFDA(ArchJ) hacer
+		Si ResR<>RegJ.Clave.Regional entonces
+			cortereg()
+		Sino
+			Si ResC<>RegJ.Clave.Carrera entonces
+				cortecar()
+			FinSi
+		FinSi
+	FinMientras
+	cortereg()
+FinAccion

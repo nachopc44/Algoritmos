@@ -1,0 +1,75 @@
+Accion pbio es
+
+AMBIENTE 
+Servicio = registro //Formato que va a tomar el archivo de entrada
+    Sucursal: N(4)
+	Area: N(1)
+	Id_Serv: N(6)
+	Desc: AN(45)
+	Cant_Cli: N(4)
+	Monto: N(6.2)
+FinRegistro
+
+ArchE: archivo de Servicio ordenado por Sucursal, Area e Id_Serv //Archivo de entrada
+RegE: Servicio //Registro que va a leer el archivo de entrada
+
+Salida = registro //Formato que va a tomar el archivo de salida
+	Sucursal: N(4)
+	Total: N(8.2)
+FinRegistro
+
+ArchS: archivo de Salida //Archivo de salida
+RegS: Salida //Registro que va a leer el archivo de salida
+
+ResSuc: N(4) //Resguardos de los campos en los que se va a realizar el corte
+ResArea: N(1)
+
+ContSuc, ContArea, ContGeneral, ContTotal, ContSuc2, ContArea2: entero
+
+Procedimiento cortearea() es
+	Escribir("El monto facturado por la venta de servicios contratados en ", ResArea " es de ", ContArea)
+	ContSuc:= ContSuc+ContArea 
+	Si RegE.Area = 1 entonces
+		ContSuc2:= ContSuc2+ContArea2
+	FinSi
+	ContArea:= 0
+	ContArea2:= 0
+	ResArea:= RegE.Area
+FinProcedimiento 
+
+Procedimiento cortesucursal() es 
+	cortearea()
+	Escribir("El monto facturado por la venta de servicios contratados en ", ResSuc " es de ", ContSuc " siempre y cuando la cantidad de clientes sea par")
+	ContGeneral:= ContGeneral+ContSuc
+	RegS.Sucursal:= ResSuc
+	RegS.Total:= RegS.Total+ContSuc2
+	Grabar(ArchS.RegS)
+	ContSuc:= 0
+	ContSuc2:= 0
+	ResSuc:= RegE.Sucursal
+FinProcedimiento
+
+PROCESO
+	Abrir e/ (ArchE)
+	Leer(ArchE,RegE)
+	Abrir /s (ArchS)
+
+	Mientras NFDA(ArchE) hacer
+		Si ResSuc<>RegE.Sucursal entonces
+			cortesucursal()
+		Sino
+			Si ResArea<>RegE.Area entonces
+				cortearea()
+			FinSi 
+		FinSi
+		Si (RegE.Cant_Cli Mod 2) = 0 entonces
+			ContArea:= ContArea+RegE.Cant_Cli
+		FinSi
+		Si RegE.Sucursal = 0050 entonces
+			Si RegE.Monto
+	FinMientras
+	cortesucursal()
+	Cerrar(ArchE)
+	Cerrar(ArchS) 
+FinAccion
+

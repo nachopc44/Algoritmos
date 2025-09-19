@@ -1,0 +1,27 @@
+//Escribir una función que verifique si un caracter introducido es un dígito o no.
+
+Accion 125 es 
+	AMBIENTE
+		carac: caracter
+		Función esDig(c:caracter):booleano es
+			Ambiente
+				num = ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+			Proceso
+				Si (c en num) entonces
+					esDig:= verdadero
+				Sino
+					esDig:= falso
+				FinSi
+			FinProceso
+		FinFuncion
+	
+	PROCESO
+		Escribir("Ingresar un caracter")
+		Leer(carac)
+		Si esDig(carac) = verdadero entonces
+			Escribir("El caracter ingresado es un digito")
+		Sino
+			Escribir("El caracter ingresado no es un digito")
+		FinSi
+	FinProceso
+FINACCION

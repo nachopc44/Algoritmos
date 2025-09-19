@@ -1,0 +1,10 @@
+program ejemploIF2;
+
+var
+n:integer;
+
+begin
+    writeln('Ingresar un numero');
+    readln(n);
+    if n mod 2 = 0 then writeln('Es par');
+end.

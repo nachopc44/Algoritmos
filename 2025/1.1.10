@@ -1,0 +1,20 @@
+//Dados dos números enteros A y B generar un algoritmo que permita determinar si A es divisor de B o B es divisor de A.
+
+Accion 1110 es 
+    AMBIENTE
+		A, B: entero
+    
+    PROCESO
+        Escribir("Ingresar dos valores enteros")
+        Leer(A, B)
+        Si (A MOD B = 0) entonces 
+            Escribir("El primer numero es divisor del segundo")
+        Sino
+            Si (B MOD A = 0) entonces
+                Escribir("El segundo numero es divisor del primero")
+            Sino
+                Escribir("Ningun numero es divisor del otro")
+            FinSi
+        FinSi
+    FinProceso
+FINACCION

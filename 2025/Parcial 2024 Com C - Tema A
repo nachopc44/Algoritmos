@@ -1,0 +1,170 @@
+Accion E1 es 
+    AMBIENTE
+        sec1: secuencia de caracter 
+        v1: caracter
+        sec2: secuencia de entero
+        v2: entero
+        secS: secuencia de entero
+
+        impactual, mayorimp, cantickets, nroticket, mayorticket, i: entero
+        sucactual, mayorsuc: AN(30)
+
+    PROCESO
+        arr(sec1)
+        avz(sec1,v1)
+        arr(sec2)
+        avz(sec2,v2)
+        crear(secS)
+
+        impactual:=0
+        mayorimp:=0
+        cantickets:=0
+        nroticket:=0
+        mayorticket:=0
+        sucactual:=""
+        mayorsuc:=""
+
+        Mientras NFDS(sec1) o NFDS(sec2) hacer
+            sucactual:=""
+            Mientras (v1<>"&") hacer
+                sucactual:= sucactual + v1
+                avz(sec1,v1)
+            FinMientras
+            avz(sec1,v1)
+            cantickets:=0
+            Para i:= 1 hasta 3 hacer
+                cantickets:= (cantickets*10) + ConvertiraNumero(v1)
+                avz(sec1,v1)
+            FinPara
+            avz(sec1,v1)
+
+            Para i:= 1 hasta cantickets hacer
+                avz(sec2,v2)
+                avz(sec2,v2)
+                nroticket:=0
+                Mientras (v2<>"|") hacer
+                    nroticket:= (nroticket * 10) + v2
+                    avz(sec2,v2)
+                FinMientras
+                avz(sec2,v2)
+                avz(sec2,v2)
+                avz(sec2,v2)
+                impactual:=0 
+                Mientras (v2<>"|") hacer
+                    impactual:= (impactual * 10) + v2
+                    avz(sec2,v2)
+                FinMientras
+                avz(sec2,v2)
+                Si (impactual>50000) entonces
+                    Grabar(secS,nroticket)
+                    Grabar(secS," ")
+                    Grabar(secS,impactual)
+                    Grabar(secS,"|")
+                FinSi
+                Si (impactual>mayorimp) entonces
+                    mayorimp:= impactual
+                    mayorticket:= nroticket
+                FinSi
+            FinPara
+
+            Escribir("En la sucursal de ", sucactual, " el ticket numero ", mayorticket, " es el de mayor importe, siendo este de $", mayorimp)
+        FinMientras
+        cerrar(sec1)
+        cerrar(sec2)
+        cerrar(secS)
+    FinProceso
+FINACCION
+
+
+Accion E2 es
+    AMBIENTE
+        Fecha = Registro
+            DD: 1...31
+            MM: {6}
+            AA: N(4)
+        FinRegistro
+
+        VENTAS = Registro 
+            NroCaja: N(2)
+            FormaPago: {"EF","TD","TC"}
+            NroTicket: N(4)
+            FechaVenta: Fecha 
+            CantArticulos: N(2)
+            ImpVenta: N(7)
+        FinRegistro
+
+        Salida = Registro
+            NroCaja: N(2)
+            TotArtEF: N(7)
+            TotArtT: N(7)
+        FinRegistro
+        
+        ArchE: archivo de VENTAS ordenado por NroCaja, FormaPago, NroTicket
+        RegE: VENTAS
+        ResNroCaja: N(2)
+        ResFormaPago: {"EF","TD","TC"}
+
+        ArchS: archivo de Salida
+        RegS: Salida
+        
+        ContEF, ContT, ContFP, ContCaja: entero
+
+        Procedimiento corteFP() es 
+            Escribir("En ", ResFormaPago, " se pagaron ", ContFP, " articulos")
+            ContCaja:= ContCaja + ContFP
+            ContFP:= 0 
+            ResFormaPago:= RegE.FormaPago
+        FinProcedimiento
+
+        Procedimiento corteCaja() es
+            corteFP() 
+            Escribir("En la caja nro ", ResNroCaja, " se vendieron ", ContCaja, " articulos")
+            Si (ContT < ContEF) entonces
+                Escribir("La caja nro ", ResNroCaja, " vendio mas articulos en efectivo que con tarjeta")
+            FinSi
+            ContCaja:= 0 
+            RegS.NroCaja:= ResNroCaja
+            RegS.TotArtEF:= ContEF
+            RegS.TotArtT:= ContT
+            Grabar(ArchS,RegS)
+            ContEF:= 0
+            ContT:= 0 
+        FinProcedimiento
+    
+    PROCESO
+        Abrir E/ (ArchE)
+        Leer(ArchE,RegE)
+        Abrir /S (ArchS)
+
+        ContEF:= 0
+        ContT:= 0
+        ContFP:= 0
+        ContCaja:= 0
+
+        ResNroCaja:= RegE.NroCaja
+        ResFormaPago:= RegE.FormaPago
+
+        Mientras NFDA(ArchE) hacer
+            Si (ResNroCaja <> RegE.NroCaja) entonces
+                corteCaja()
+            Sino
+                Si (ResFormaPago <> RegE.FormaPago) entonces
+                    corteFP()
+                FinSi
+            FinSi
+
+            Segun RegE.FormaPago hacer
+                ="EF": ContEF:= ContEF + RegE.CantArticulos
+                ="TD": ContT:= ContT + RegE.CantArticulos
+                ="TC": ContT:= ContT + RegE.CantArticulos
+            FinSegun
+
+            Leer(ArchE,RegE)
+        FinMientras
+
+        corteCaja()
+
+        Cerrar(ArchE)
+        Cerrar(ArchS)
+    FinProceso
+FINACCION

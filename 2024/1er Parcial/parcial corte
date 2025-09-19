@@ -1,0 +1,109 @@
+Accion pcorte es
+
+Ambiente
+Adopciones = Registro
+	Clave = Registro
+		Departamento: AN(30)
+		Localidad: AN(30)
+		Barrio: AN(30)
+		Dni_Adoptante: N(8)
+		Id_Mascota: AN(2)
+	FinRegistro
+	Tipo: {"C","F"}
+	Cant_Anteriores: N(5)
+FinRegistro
+
+Sal = Registro
+	Departamento: AN(30)
+	Localidad: AN(30)
+	Cantidad_de_adopciones: N(5)
+FinRegistro
+
+ArchA: Archivo de Adopciones ordenado por Clave 
+ArchS: Archivo de Sal
+RegS: Sal
+RegA: Adopciones
+ResB: caracter
+ResL: caracter
+ResD: caracter
+Perros, Gatos: entero 
+Bar_Perros: entero
+Bar_Gatos: entero
+Loc_Perros, Loc_Gatos: entero
+Prov_Total, Prov_Gatos: entero
+
+Procedimiento Corte_Dni() es
+	Si RegA.Cant_Anteriores>3 entonces
+		RegS.Departamento:=RegA.Clave.Departamento
+		RegS.Localidad:=RegA.Clave.Localidad
+		RegS.Cantidad_de_adopciones:=Perros+Gatos
+		Grabar(ArchS,RegS)
+	FinSi
+	Bar_Gatos:= Bar_Gatos+Gatos
+	Bar_Perros:= Bar_Perros+Perros
+	ResD:= RegA.Clave.Dni_Adoptante
+	Perros:=0
+	Gatos:=0
+FinProcedimiento
+
+Procedimiento Corte_Barrio() es
+	Corte_Dni()
+	Escribir("En el barrio" ResB "de la localidad" ResL "hay" Bar_Perros "perros y" Bar_Gatos "gatos.")
+	Loc_Perros:= Loc_Perros + Bar_Perros
+	Loc_Gatos:= Loc_Gatos + Bar_Gatos
+	Bar_Gatos:=0
+	Bar_Perros:=0
+	ResB:= RegA.Clave.Barrio
+FinProcedimiento 
+
+Procedimiento Corte_Localidad() es
+	Corte_Barrio()
+	Escribir("En la localidad" ResL "hay" Loc_Gatos "gatos y" Loc_Perros "perros.")
+	Prov_Total:= Loc_Gatos + Loc_Perros
+	Prov_Gatos:= Loc_Gatos
+	Loc_Gatos:=0
+	Loc_Perros:=0
+	ResL:= RegA.Clave.Localidad
+FinProcedimiento
+
+Proceso 
+abrir e/(ArchA)
+leer (ArchA, RegA)
+abrir /s(ArchS)
+leer(ArchS,RegS)
+ResB:= RegA.Clave.Barrio
+ResL:= RegA.Clave.Localidad
+ResD:= RegA.Clave.Dni_Adoptante
+Perros:= 0
+Gatos:= 0
+Bar_Perros:= 0
+Bar_Gatos:= 0
+Loc_Gatos:= 0
+Loc_Perros:= 0 
+Prov_Gatos:= 0
+Prov_Total:= 0
+
+Mientras NFDA(ArchA) hacer
+	Si RegA.Clave.Localidad<>ResL entonces
+		Corte_Localidad()
+	Sino
+		Si RegA.Clave.Barrio<>ResB entonces
+			Corte_Barrio()
+		Sino
+			Si RegA.Clave.Dni_Adoptante<>ResD entonces
+				Corte_Dni()
+			FinSi
+		FinSi
+	FinSi
+	Si RegA.Tipo="C" entonces
+		Perros:= Perros+1
+	Sino 
+		Gatos:= Gatos+1
+	FinSi
+	leer(ArchA,RegA)
+FinMientras
+Corte_Localidad()
+cerrar(ArchA)
+cerrar(ArchS)
+Escribir("El porcentaje de gatos adoptados en la provincia es de: " (Prov_Gatos DIV Prov_Total)*100 "%")
+FinAccion

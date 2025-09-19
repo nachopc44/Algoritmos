@@ -1,0 +1,119 @@
+Accion ParcialBici() es
+
+    AMBIENTE
+        Bicicletas = Registro
+            clave = Claves
+            fecha_adquisicion: fecha
+            fecha_ult_mantenimiento: fecha
+        FinRegistro
+
+        Novedades = Registro
+            clave = Claves
+            tipo_novedad:1..4
+            fecha_novedad: fecha
+            hora_inicio:n(2)
+            hora_fin:n(2)
+            circuito_nro:n(2)
+            id_usuario:an(10)
+        FinRegistro
+
+        Claves = Registro
+            nro_serie:n(3)
+            modelo:n(3)
+        FinRegistro
+
+        fecha = Registro
+            dia:1..31
+            mes:1..12
+            año:n(4)
+        FinRegistro
+
+        Maestro,Maestro_Act: Archivo de Bicicletas ordenado por clave.
+        Movimiento: Archivo de Novedades ordenado por clave.
+        mae,reg_sal,aux: Bicicletas
+        mov: Novedades
+        circuito_usuario: entero
+        total_prestamos: entero
+
+        dar_baja: booleano
+
+        Procedimiento LeerMaestro() es
+            Leer(Maestro, mae)
+            Si FDA(Maestro) entonces
+                mae.clave:=HV
+            FinSi
+        FinProcedimiento
+
+        Procedimiento LeerMovimiento() es
+            Leer(Movimiento, mov)
+            Si FDA(Movimiento) entonces
+                mov.clave:=HV
+            FinSi
+        FinProcedimiento
+    
+    PROCESO
+        Abrir E/ (Maestro)
+        Abrir E/ (Movimiento)
+        Abrir /S (Maestro_Act)
+        LeerMaestro()
+        LeerMovimiento()
+        total_prestamos:=0
+        Esc("Ingresame un circuito particular")
+        Leer(circuito_usuario)
+
+        Mientras (mae.clave <> HV) o (mov.clave <> HV) hacer
+            dar_baja:= verdadero
+            Si mae.clave < mov.clave entonces // SIN MOVIMIENTOS SE COPIA TAL CUAL
+                reg_sal:= mae
+                Escribir(Maestro_Act, reg_sal)
+                LeerMaestro()
+            Sino
+                Si mae.clave = mov.clave entonces
+                    aux:= mae
+                    Mientras (mae.clave = mov.clave) hacer
+                        Segun mov.tipo_novedad hacer
+                            =1 Esc("No puede darse de alta una bicicleta que ya exista")
+                            =2: Si mov.circuito_nro = circuito_usuario hacer
+                                    total_prestamos:= total_prestamos + 1
+                                FinSi
+                            =3: aux.fecha_ult_mantenimiento:= mov.fecha_novedad
+                            =4: dar_baja:=falso
+                        FinSegun.
+                        LeerMovimiento()
+                    FinMientras
+                    Si dar_baja entonces
+                        reg_sal:= aux
+                        Escribir(Maestro_Act,reg_sal)
+                    FinSi
+                    LeerMaestro()
+                Sino // maestro mayor a movimiento , SOLO ACEPTO ALTA
+                    Segun mov.tipo_novedad hacer 
+                        =1: aux.clave:= mov.clave
+                            aux.fecha_adquisicion:= mov.fecha_novedad
+                            aux.fecha_ult_mantenimiento:=' '
+                        >1: Esc("Error, solo acepto altas")
+                    FinSegun
+                    LeerMovimiento()
+                    Mientras (aux.clave = mov.clave) hacer
+                        Segun mov.tipo_novedad hacer
+                            =1: Esc("No puede darse de alta una bicicleta que ya exista")
+                            =2: Si mov.circuito_nro = circuito_usuario hacer
+                                total_prestamos:= total_prestamos + 1
+                            =3: aux.fecha_ult_mantenimiento:= mov.fecha_novedad
+                            =4: dar_baja:=falso
+                        FinSegun.
+                        LeerMovimiento()
+                    FinMientras
+                    Si dar_baja entonces
+                        reg_sal:= aux
+                        Escribir(Maestro_Act,reg_sal)
+                    FinSi
+                FinSi
+            FinSi
+        FinMientras
+
+        Esc("La cantidad de prestamos para el circuito", circuito_usuario," fue de:", total_prestamos).
+        Cerrar(Maestro)
+        Cerrar(Maestro_Act)
+        Cerrar(Movimiento)
+FinAccion

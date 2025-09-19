@@ -1,0 +1,29 @@
+//Escriba un algoritmo que permita conocer la edad de una persona, con solo ingresar la fecha de nacimiento y la fecha actual, ambas en el formato: DIA, MES, AÑO
+
+Accion E118 es
+    AMBIENTE
+        fechaActual, fechaNacimiento: registro 
+			AA: N(4)
+			MM: (1...12)
+			DD: (1...31)
+		FinRegistro
+		edad: entero
+
+	PROCESO
+		Escribir("Ingrese la fecha de nacimiento (DD, MM, AA)")
+		Leer(fechaNacimiento.DD, fechaNacimiento.MM, fechaNacimiento.AA)
+		Escribir("Ingrese la fecha actual (DD, MM, AA)")
+		Leer(fechaActual.DD, fechaActual.MM, fechaActual.AA)
+
+		edad:= fechaActual.AA - fechaNacimiento.AA
+		Si (fechaActual.MM < fechaNacimiento.MM) entonces 
+			edad:= edad - 1
+		Sino 
+			Si (fechaActual.MM = fechaNacimiento.MM) y (fechaActual.DD < fechaNacimiento.DD) entonces
+				edad:= edad - 1
+			FinSi
+		FinSi
+
+		Escribir("La edad es de ", edad, " anios")
+	FinProceso
+FINACCION

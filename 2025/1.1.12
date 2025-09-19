@@ -1,0 +1,36 @@
+//Escriba un algoritmo que acepte un número entero mayor a 100 y menor a 1000, y muestre como está compuesto (unidades, decenas y centenas) y si es múltiplo de 3 (Recordar: todo número cuya suma de sus dígitos sea múltiplo de 3, lo es también).
+
+Accion 1112 es 
+	AMBIENTE
+		num, sum, unidades, decenas, centenas: entero
+		vari: booleano
+
+	PROCESO
+		vari:= falso 
+		Escribir("Ingresar un numero entre 100 y 1000")
+		Leer(num) 
+
+		Mientras (vari = falso) hacer
+			Si (num > 100) y (num < 1000) entonces 
+				vari:= verdadero 
+			Sino
+				Escribir("El numero no cumple la condicion, ingresar otro numero")
+				Leer(num)
+			FinSi
+		FinMientras 
+
+		unidades:= (num MOD 10)
+		decenas:= ((num DIV 10) MOD 10)
+		centenas:= (num DIV 100)
+		Escribir("El numero tiene: ", unidades, " unidades, ", decenas, " decenas, y " , centenas," centenas.")
+		
+		sum:= unidades + decenas + centenas 
+
+		Si (sum MOD 3 = 0) entonces
+			Escribir("El numero ingresado es multiplo de 3")
+		Sino
+			Escribir("El numero ingresado no es multiplo de 3")
+		FinSi
+		
+	FinProceso
+FINACCION

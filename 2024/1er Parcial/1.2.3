@@ -1,0 +1,31 @@
+//Diseñe una función que permita ingresar 3 números y devuelva el mínimo valor. El programa principal debe permitir que este proceso se repita la cantidad de veces que el usuario desee.
+
+ACCION 123 ES
+
+AMBIENTE
+
+num1:natural
+num2:natural
+num3:natural
+
+FUNCION num_menor (num1,num2,num3:natural):natural ES
+menor:natural
+menor:=0
+Si num1<num2 y num1<num3 entonces
+	menor:=num1
+sino
+	Si num2<num1 y num2<num3 entonces
+		menor:=num2
+	sino
+		menor:=num3
+	finsi
+finsi
+num_menor:=menor
+FINSUB
+
+PROCESO
+
+escribir("Ingresar tres numero diferentes")
+leer(num1,num2,num3)
+escribir("El numero menor es"num_menor(num1,num2,num3))
+FINACCION

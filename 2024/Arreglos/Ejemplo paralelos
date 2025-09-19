@@ -1,0 +1,16 @@
+Accion paralelos (A: arreglo [1..5] de reales B: arreglo [1..5] de reales)
+
+AMBIENTE
+M: arreglo [1..5] de reales
+F: arreglo [1..5] de reales
+i: entero 
+
+PROCESO 
+	Para i:= 1 a 5 hacer
+		Si B[i] = "m" entonces
+			M[i]:= A[i]
+		Sino
+			F[i]:= A[i]
+		FinSi
+	FinPara
+FinAccion

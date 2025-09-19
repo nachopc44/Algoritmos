@@ -1,0 +1,20 @@
+//Se dispone de una secuencia de caracteres y se desea obtener una secuencia de salida que resulte de copiar la secuencia de entrada, descartando el caracter "$".
+
+Accion 213 es 
+	AMBIENTE
+		sec1, sec2: secuencia de caracter
+		v1: caracter
+
+	PROCESO
+		arr(sec1)
+		avz(sec1,v1)
+		crear(sec2)
+
+		Mientras NFDS(sec1) hacer
+			Si v1<>"$" entonces
+				grabar(sec2,v1)
+			FinSi
+			avz(sec1,v1)
+		FinMientras
+	FinProceso
+FINACCION

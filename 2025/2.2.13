@@ -1,0 +1,112 @@
+//Un Casino de la región ha notado un incremento en los costos de las reparaciones de tragamonedas en sus sucursales. Por ello solicitó un informe con la cantidad de reparaciones y sus costos, discriminados según tragamonedas, modelo, marca, sucursal y total general.
+//Se dispone de un archivo REPARACIONES, con el siguiente formato. Cada registro representa la reparación de un tragamonedas, tener en cuenta que puede existir más de una reparación por tragamonedas.
+//REPARACIONES Ordenado por Cod_Sucursal, Marca, Modelo, Cod_Tragamonedas
+//Cod_Sucursal | Marca | Modelo | Cod_Tragamonedas | Fecha_Reparacion | Costo_Reparacion
+//Realice el algoritmo para emitir el informe con los totales solicitados
+
+Accion 2213 es 
+	AMBIENTE
+		Fecha = Registro
+			AA: N(4)
+			MM: 1...12
+			DD: 1...31
+		FinRegistro
+
+		REPARACIONES = Registro
+			Cod_Sucursal: N(5)
+			Marca: AN(30)
+			Modelo: AN(30)
+			Cod_Tragamonedas: N(5)
+			Fecha_Reparacion: Fecha
+			Costo_Reparacion: N(7)
+		FinRegistro
+
+		Arch: archivo de REPARACIONES ordenado por Cod_Sucursal, Marca, Modelo, Cod_Tragamonedas
+		Reg: REPARACIONES
+		ResSuc: N(5)
+		ResMarc: AN(30)
+		ResMod: AN(30)
+		ResTrag: N(5)
+		ContSuc, CostSuc, ContMarc, CostMarc, ContMod, CostMod, ContTrag, CostTrag, ContTot, CostTot: entero
+
+		Procedimiento corteTrag() es 
+			Escribir("El tragamonedas de codigo ", ResTrag, " tuvo ", ContTrag, " reparaciones, con un costo de $", CostTrag)
+			ContMod:= ContMod + ContTrag
+			ContTrag:= 0
+			CostMod:= CostMod + CostTrag
+			CostTrag:= 0
+			ResTrag:= Reg.Cod_Tragamonedas
+		FinProcedimiento
+
+		Procedimiento corteMod() es
+			corteTrag()
+			Escribir("Los tragamonedas de modelo ", ResMod, " tuvieron ", ContMod, " reparaciones, con un costo de $", CostMod)
+			ContMarc:= ContMarc + ContMod
+			ContMod:= 0
+			CostMarc:= CostMarc + CostMod
+			CostMod:= 0
+			ResMod:= Reg.Modelo
+		FinProcedimiento
+
+		Procedimiento corteMarc() es
+			corteMod()
+			Escribir("Los tragamonedas de la marca ", ResMarc, " tuvieron ", ContMarc, " reparaciones, con un costo de $", CostMarc)
+			ContSuc:= ContSuc + ContMarc
+			ContMarc:= 0
+			CostSuc:= CostSuc + CostMarc
+			CostMarc:= 0
+			ResMarc:= Reg.Marca
+		FinProcedimiento
+
+		Procedimiento corteSuc() es
+			corteMarc()
+			Escribir("En la sucursal ", ResSuc, " hubieron ", ContSuc, " reparaciones, con un costo de $", CostSuc)
+			ContTot:= ContTot + ContSuc
+			ContSuc:= 0
+			CostTot:= CostTot + CostSuc
+			CostSuc:= 0 
+			ResSuc:= Reg.Cod_Sucursal
+		FinProcedimiento
+
+	PROCESO
+		Abrir E/ (Arch)
+		Leer(Arch,Reg)
+
+		ContSuc:= 0 ; CostSuc:= 0
+		ContMarc:= 0 ; CostMarc:= 0
+		ContMod:= 0 ; CostMod:= 0
+		ContTrag:= 0 ; CostTrag:= 0
+		ContTot:= 0 ; CostTot:= 0
+
+		ResSuc:= Reg.Cod_Sucursal
+		ResMarc:= Reg.Marca
+		ResMod:= Reg.Modelo
+		ResTrag:= Reg.Cod_Tragamonedas
+
+		Mientras NFDA(Arch) hacer
+			Si (ResSuc <> Reg.Cod_Sucursal) entonces
+				corteSuc()
+			Sino
+				Si (ResMarc <> Reg.Marca) entonces
+					corteMarc()
+				Sino
+					Si (ResMod <> Reg.Modelo) entonces
+						corteMod()
+					Sino
+						Si (ResTrag <> Reg.Cod_Tragamonedas) entonces
+							corteTrag()
+						FinSi
+					FinSi
+				FinSi
+			FinSi
+
+			ContTrag:= ContTrag + 1
+			CostTrag:= CostTrag + Reg.Costo_Reparacion
+			Leer(Arch,Reg)
+		FinMientras
+
+		corteSuc()
+		Escribir("En total hubo ", ContTot, " reparaciones, con un costo de $", CostTot)
+		Cerrar(Arch)
+	FinProceso
+FINACCION

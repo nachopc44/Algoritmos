@@ -1,0 +1,46 @@
+Accion pps_qatar es
+
+AMBIENTE 
+Sec1: secuencia de caracteres
+V1: caracter
+SecS: secuencia de enteros
+Capacidad, AsientosRes, CantReserva: entero
+ZonaSoli: caracter
+
+Funcion AEntero(dig:caracter):entero es
+	Segun dig hacer
+		="0": AEntero:=0
+		="1": AEntero:=1
+		="2": AEntero:=2
+		="3": AEntero:=3
+		="4": AEntero:=4
+		="5": AEntero:=5
+		="6": AEntero:=6
+		="7": AEntero:=7
+		="8": AEntero:=8
+		="9": AEntero:=9
+FinFuncion 
+
+PROCESO
+arr(Sec1)
+avz(Sec1,V1)
+crear(SecS)
+
+Escribir("Ingresar zona de la A a la Z para ver el numero de asiento reservados")
+Leer(ZonaSoli)
+Mientras NFDS(Sec1) hacer
+	Capacidad:=0
+	AsientosRes:=0
+	Mientras V1<>"@" hacer
+		Mientras V1<>"%"
+			Grabar(SecS,V1)
+			avz(Sec1,V1)
+		FinMientras
+		avz(Sec1,V1)
+		Mientras V1<>"#" hacer
+			Capacidad:=Capacidad+AEntero
+			avz(Sec1,V1)
+		FinMientras
+		Capacidad:=Capacidad*1000
+		avz(Sec1,V1)
+		Si V1=ZonaSoli entonces		

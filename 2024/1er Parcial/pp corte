@@ -1,0 +1,83 @@
+Accion CORTECONTROL
+Jubilar=Registro
+    Regional:AN(3)
+    Carrera:AN(20)
+    Legajo: N(5)
+    Sexo:(M,F)
+    Nombre:AN(30)
+FinRegistro
+
+ArchE: Archivo ordenado por ...........
+RegE: Jubilar
+
+Salida=Registro 
+    Regional:AN(30)
+    Cantidad_Jubilados: N(3)
+FinRegistro
+
+ArchS: Archivo de Salida
+RegS: Salida
+
+ResgRegional:AN(3)
+ResgCarrera: An(20)
+TotGeneral, TotRegional, TotalCarreraM; TotalCarreraF
+
+Procedimiento CorteCarrera() es
+    Esc("La cantidad de docentes masculinos en"; ResgCarrera " en condiciones de jubilarse son," TotalCarreraM )
+    Esc("La cantidad de docentes femeninos en", ResgCarrera "en condiciones de jubilarse son", TotalCarreraF)
+    TotRegional:=TotRegional + TotalCarreraM + TotalCarreraF
+    TotalCarreraF:=0
+    TotalCarreraM:=0
+    ResgCarrera:= RegE.Carrera
+FinProcedimiento
+
+Procedimiento CorteRegional() es
+    CorteCarrera()
+    RegS.Regional:= ResgRegional
+    RegS.Cantidad_Jubilados:=TotRegional
+    Esc("La cantidad de docentes en", ResgRegional "en condiciones de jubilarse son", TotRegional)
+    TotGeneral:= TotGeneral +  TotRegional
+    TotRegional:=0
+    ResgRegional:= RegE.Regional
+FinProcedimiento
+
+Proceso 
+Abrir E/ (ArchE)
+Leer(ArchE, RegE)
+Abrir/S (ArchS)
+
+ResgCarrera:= RegE.Carrera
+ResgRegional:= RegE.Regional
+TotGeneral:=0
+TotRegional:=0
+TotalCarreraM:=0
+TotalCarreraF:=0
+ContDocentes:=0
+
+Mientras NFDA (arch) hacer
+//TRATAR CORTE
+    Si RegE.Regional <> ResgRegional entonces
+        CorteRegional()
+    Sino 
+     Si RegE.Carrera <> ResgCarrera entonces
+        CorteCarrera()
+     Finsi
+    Finsi
+
+    Si RegE.Sexo= M entonces
+        TotalCarreraM:= TotalCarreraM + 1
+    Sino
+        TotalCarreraF:= TotalCarreraF + 1
+    Finsi 
+
+  
+  
+    Leer (arch; reg.entrada)
+Finmientras
+Corteregional()
+//emito totales generales
+Esc("La cantidad de docentes en condiciones de jubilarse son" TotGeneral)
+Esc("La regional  con mayor cantidad de docentes es docentes es", To)
+
+Cerrar (arch)
+Cerrar (archs)    

@@ -1,0 +1,90 @@
+Accion PSS es
+
+AMBIENTE 
+Sec1: secuencia de caracteres
+V1: caracter
+Sec2: secuencia de caracteres
+V2: caracter
+SecS: secuencia de caracteres
+i, EntS2, EntDist: entero
+
+Funcion AEntero(dig:caracter):entero es
+	Segun dig hacer
+		="0": AEntero:=0
+		="1": AEntero:=1
+		="2": AEntero:=2
+		="3": AEntero:=3
+		="4": AEntero:=4
+		="5": AEntero:=5
+	FinSegun
+FinFuncion
+
+PROCESO
+	arr(Sec1); avz(Sec1,V1)
+	arr(Sec2); avz(Sec2,V2)
+	crear(SecS)
+	EntS2:=0
+	EntDist:=0
+
+	Mientras NFDS(Sec1) hacer
+		Mientras V1<>"#" hacer
+			Para i:= 1 a 10 hacer
+				avz(Sec1,V1)
+			FinPara
+			Si V2<>"#" entonces
+				Si V1="T" entonces
+					Para i:= 1 a 6
+						avz(Sec2,V2)
+					FinPara
+					Mientras V2<>"?" hacer
+						Mientras V2<>"." hacer
+							grabar(SecS,V2)
+							avz(Sec2,V2)
+						FinMientras
+						EntS2:= EntS2+1
+						grabar(SecS,"+")
+						avz(Sec2,V2)
+					FinMientras
+					EntS2:= EntS2+1
+					grabar(SecS,"#")
+					avz(Sec2,V2)
+					avz(Sec1,V1)
+					Si AEntero(V1)<>EntS2 entonces
+						EntDist:= EntDist+1
+					FinSi
+					EntS2:=0
+				Sino
+					Para i:= 1 a 11 hacer
+						avz(Sec2,V2)
+					FinPara
+					Mientras V2<>"?"
+						avz(Sec2,V2)
+						Si V2="." entonces
+							EntS2:= EntS2+1
+						FinSi
+					FinMientras
+					EntS2:= EntS2+1
+					Si AEntero(V1)=EntS2 entonces
+						EntDist:= EntDist+1
+					FinSi
+					avz(Sec1,V1)
+					avz(Sec1,V1)
+					avz(Sec2,V2)
+				FinSi
+			Sino
+				Mientras V1<>"#"
+					avz(Sec1,V1)
+				FinMientras
+				avz(Sec1,V1)
+				Mientras V2<>"?"
+					avz(Sec2,V2)
+				FinMientras
+				avz(Sec2,V2)
+			FinSi
+		FinMientras
+	FinMientras
+	cerrar(Sec1)
+	cerrar(Sec2)
+	cerrar(SecS)
+	Escribir("Los usuarios que compraron una cantidad diferente a la que dijeron en la fila fueron "EntDist)
+FinAccion

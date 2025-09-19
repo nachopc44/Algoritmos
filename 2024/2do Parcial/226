@@ -1,0 +1,52 @@
+Accion 226 es 
+
+AMBIENTE
+Graduados = Registro
+	ApellidoyNombre: AN(30)
+	PromedioGeneral: N(2)
+FinRegistro
+ArchE: Archivo de Graduados ordenado por ApellidoyNombre
+RegE: Graduados
+
+Salida = Registro
+	ApellidoyNombre: AN(30)
+	PromedioGeneral: N(2)
+	Recomendacion: {"NO", "SI", "F", "MF"}
+FinRegistro
+ArchS: Archivo de Salida ordenado por ApellidoyNombre
+RegS: Salida
+
+CantNO, CantSI, CantF, CantMF, CantTot: entero
+
+PROCESO
+	Abrir e/ (ArchE)
+	Abrir /s (ArchS)
+	Leer(ArchE,RegE)
+	Mientras NFDA(ArchE) hacer
+		Grabar(ArchS,RegE)
+		Si RegE<7 hacer
+			RegS:="NO"
+			CantNO:= CantNO+1
+		Sino
+			Si (RegE>=7) y (RegE<8) hacer
+				RegS:="SI"
+				CantSI:= CantSI+1
+			Sino
+				Si (RegE>=8) y (RegE<9) hacer
+					RegS:="F"
+					CantF:= CantF+1
+				Sino
+					RegS:="MF"
+					CantMF:= CantMF+1
+				FinSi 
+			FinSi
+		FinSi
+		Grabar(ArchS,RegS)
+		Leer(ArchE,RegE)
+	FinMientras
+	CantTot:= CantNO+CantSI+CantF+CantMF
+	Escribir("La cantidad de alumnos que obtuvieron una recomendacion de NO fue de: ", CantNO". Equivalente al ", (CantNO/CantTot)*100"%")
+	Escribir("La cantidad de alumnos que obtuvieron una recomendacion de SI fue de: ", CantSI". Equivalente al ", (CantSI/CantTot)*100"%")
+	Escribir("La cantidad de alumnos que obtuvieron una recomendacion de F fue de: ", CantF". Equivalente al ", (CantF/CantTot)*100"%")
+	Escribir("La cantidad de alumnos que obtuvieron una recomendacion de MF fue de: ", CantMF". Equivalente al ", (CantMF/CantTot)*100"%")
+FinAccion

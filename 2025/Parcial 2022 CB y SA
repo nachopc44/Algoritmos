@@ -1,0 +1,88 @@
+Accion PCorte es 
+    AMBIENTE
+        SERVICIO = Registro
+            Sucursal: N(4)
+            Area: N(1)
+            Id_Serv: N(6)
+            Desc: AN(45)
+            Cant_Cli: N(4)
+            Monto: N(6.2)
+        FinRegistro
+
+        ArchE: archivo de SERVICIO ordenado por Sucursal, Area, Id_Serv
+        RegE: SERVICIO
+        ResSuc: N(4)
+        ResArea: N(1)
+        
+        Salida = Registro
+            Sucursal: N(4)
+            Total: N(8.2)
+        FinRegistro
+
+        ArchS: archivo de Salida
+        RegS: Salida
+
+        ContArea, ContSuc, ContTot, Suc50: real
+
+        Procedimiento corteA() es 
+            Escribir("En el area de ", ResArea, " se facturo $", ContArea)
+            ContSuc:= ContSuc + ContArea
+            Si (ResArea=1) entonces
+                RegS.Sucursal:= ResSuc
+                RegS.Total:= ContArea
+                Grabar(ArchS,RegS)
+            FinSi
+            ContArea:= 0
+            ResArea:= RegE.Area
+        FinProcedimiento
+
+        Procedimiento corteS() es
+            corteA()
+            Escribir("En la sucursal ", ResSuc, " se facturo $", ContSuc)
+            ContTot:= ContTot + ContSuc
+            Si (ResSuc=50) entonces
+                Suc50:= ContSuc
+            FinSi
+            ContSuc:= 0
+            ResSuc:= RegE.Sucursal
+        FinProcedimiento
+
+    PROCESO
+        Abrir E/ (ArchE)
+        Abrir /S (ArchS)
+        Leer(ArchE,RegE)
+        ContArea:= 0
+        ContSuc:= 0
+        ContTot:= 0
+        ResSuc:= RegE.Sucursal
+        ResArea:= RegE.Area
+        
+        Mientras NFDA(ArchE) hacer
+            Si (ResSuc<>RegE.Sucursal) entonces
+                corteS()
+            Sino
+                Si (ResArea<>RegE.Area) entonces
+                    corteA()
+                FinSi
+            FinSi
+
+            Si ((RegE.Cant_Cli MOD 2) = 0) entonces
+                ContArea:= ContArea + RegE.Monto
+            FinSi
+
+            Leer(ArchE,RegE)
+        FinMientras
+        corteS()
+
+        Escribir("El monto total facturado por la empresa es de $", ContTot)
+        
+        Si (Suc50 > (ContTot*0.20)) entonces
+            Escribir("El monto facturado por la sucursal 50 es mayor al 20% del total facturado por toda la empresa")
+        Sino
+            Escribir("El monto facturado por la sucursal 50 es menor al 20% del total facturado por toda la empresa")
+        FinSi
+
+        Cerrar(ArchE)
+        Cerrar(ArchS)
+    FinProcedimiento
+FINACCION

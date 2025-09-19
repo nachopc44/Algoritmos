@@ -1,0 +1,25 @@
+//Escribir un procedimiento que lea desde el teclado las unidades y el precio de un producto que se quiere comprar, y en función de las unidades introducidas calcule un descuento o no, según corresponda: cuando las unidades excedan media docena se aplicará 4% y el 10% cuando excedan la docena.
+
+Accion 127 es 
+	AMBIENTE 
+		prec, unid, result: real
+		
+		Procedimiento desc() es
+			Si (unid > 6) y (unid <= 12) entonces
+				result:= (unid*prec)*(4/100) 
+			Sino 
+				Si (unid > 12) entonces
+					result:= (unid*prec)*(10/100)
+				Sino
+					result:= 0 
+				FinSi
+			FinSi
+		FinProcedimiento
+
+	PROCESO 
+		Escribir("Ingrese el precio del producto y las unidades")
+		Leer(prec, unid)
+		desc() 
+		Escribir("Su descuento es de: $", result) 
+	FinProceso
+FINACCION

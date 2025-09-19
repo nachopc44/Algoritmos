@@ -1,0 +1,24 @@
+//Dada una secuencia de letras del alfabeto que finaliza con la letra "Z", contar cuantas consonantes hay en la secuencia.
+
+Accion 212 es 
+	AMBIENTE
+		sec1: secuencia de caracter
+		v1: caracter
+		vocales = ("A", "E", "I", "O", "U")
+		cont: entero 
+
+	PROCESO
+		arr(sec1)
+		avz(sec1,v1)
+		cont:= 0 
+
+		Mientras (v1<>"Z") hacer
+			Si (v1 no en vocales) entonces
+				cont:= cont + 1
+			FinSi
+			avz(sec1,v1)
+		FinMientras
+		cont:= cont + 1
+		cerrar(sec1)
+	FinProceso
+FINACCION

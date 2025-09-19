@@ -1,0 +1,26 @@
+//Escriba un algoritmo que acepte dos números, calcule la suma e imprima el mensaje de acuerdo al resultado obtenido: Suma <= 50, Suma > 50 y <= 100, Suma > 100 y <= 200, Suma > 200
+
+Accion E117 es
+	AMBIENTE
+		num1, num2, suma: real
+
+	PROCESO
+		Escribir("Ingresar los dos numeros a sumar")
+		Leer(num1, num2)
+		suma:= num1 + num2
+
+		Si (suma <= 50) entonces
+			Escribir("El resultado de la suma es menor o igual a 50")
+		Sino
+			Si (suma > 50) y (suma <= 100) entonces
+				Escribir("El resultado de la suma es mayor a 50 o menor o igual a 100")
+			Sino
+				Si (suma > 100) y (suma <= 200) entonces
+					Escribir("El resultado de la suma es mayor a 100 o menor o igual a 200")
+				Sino
+					Escribir("El resultado de la suma es mayor a 200")
+				FinSi
+			FinSi
+		FinSi
+	FinProceso
+FINACCION

@@ -1,0 +1,140 @@
+Algoritmo _2223_
+
+    //ambiente
+
+        fCliente = registro
+            Id_C: N(6)
+            Fecha_U: fecha = registro
+                        a:N(4)
+                        m:N(2)
+                        d:N(2)
+                     fin
+            Cant_L: N(10)
+            Prom_L: R(3:2)
+            Tipo_C: ("A","B","C")
+        fin
+
+        fMediciones = registro
+            Id_C: N(6) 
+            Fecha_M: fecha
+            Consumo: N(8)
+        fin
+
+        maestro: archivo de fCliente ordenado por Id_C
+        mae: fCliente
+        maestroact: archivo de fCliente ordenado por Id_C
+        maeact: fCliente
+        movimiento: archivo de fMediciones ordenado por Id_C
+        mov: fMediciones
+        fecha: fecha
+
+        proceso Leermae()
+
+            leer(maestro, mae)
+            si (nfda(maestro)) entonces
+
+                mae.Id_C:= HV()
+
+            fin
+        
+        fin
+
+        proceso Leermov()
+
+            leer(movimiento, mov)
+            si (nfda(movimiento)) entonces
+
+                mov.Id_C:= HV()
+
+            fin
+        
+        fin
+
+        subaccion definirtipoC(consumo: N(8)): AN(1)
+
+            si ((consumo) < 20000) entonces
+
+                tipoC:= "A"
+
+            sino
+
+                si ((consumo) < 40000) entonces 
+
+                    tipoC:= "B"
+
+                sino
+
+                    si((consumo) >= 40000) entonces
+
+                        tipoC:= "C"
+
+                    fin 
+                
+                fin
+
+            fin
+
+
+    //proceso
+        abrir(e/ (maestro))
+        abrir(e/ (movimiento))
+        abrir(s/ (maestroact))
+        Leermae()
+        Leermov()
+        fecha.a:= 2015
+        fecha.m:= 2
+        fecha.d:= 1
+        mientras (( (mae.Id_C) <> HV() ) o ( (mov.Id_C) <> HV() )) hacer
+
+            si ((mov.Fecha_M) < fecha) entonces //compruebo para ahorrar pasos antes de entrar y que no importa la fecha del maestro xq es menor a 1/5/2014
+
+                si ((mae.Id_C) < (mov.Id_C)) entonces   // cuando no hay nuevas mediciones de la casa, simplemente la dejo como esta 
+
+                    grabar(maestroact, mae)
+                    Leermae()
+                
+                sino
+
+                    si ((mae.Id_C) > (mov.Id_C)) entonces   // en el caso que el movimiento sea menor, es xq no existe en el maestro entonces la creo
+
+                        maeact.Id_C:= mov.Id_C
+                        maeact.Fecha_U:= mov.Fecha_M
+                        maeact.Cant_L:= 1
+                        maeact.Prom_L:= consumo //es igual al consumo ya que solo hay una lectura de la casa
+                        maeact.tipoC:= Tipo_C(mov.consumo)
+                        grabar(maestroact, maeact)
+                        Leermov()
+
+                    sino
+
+                        si ((mae.Id_C) = (mov.Id_C)) entonces // si es igual entonces actualizo la info 
+
+                            maeact.Id_C:= mae.Id_C
+                            maeact.Fecha_U:= mov.Fecha_M
+                            maeact.Cant_L:= mae.Cant_L + 1 
+                            maeact.Prom_L:=((((mae.Prom_L) * (mae.Cant_L) ) + mov.consumo) / (maeact.Cant_L)) // saco el total de consumo luego sumo lo nuevo y divido por la cant_L nueva
+                            maeact.tipoC:= Tipo_C(maeact.Prom_L)
+                            grabar(maestroact, maeact)
+                            Leermae()
+                            Leermov()
+
+                        fin 
+
+                    fin 
+
+                fin 
+
+            sino    // si la fecha es mayor a la solicitada copio los maestros ya que no pasan la fecha dada
+
+                grabar(maestroact, mae)
+                Leermae()
+            
+            fin 
+
+        fin 
+        cerrar(maestro)
+        cerrar(movimiento)
+        cerrar(maestroact)
+
+
+finalgoritmo

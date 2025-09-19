@@ -1,0 +1,25 @@
+//Diseñe una función que devuelva la suma de los dígitos del número natural suministrado como parámetro.
+//num MOD 10 obtiene el último dígito de num(numero)
+//num DIV 10 elimina el último dígito de num(numero)
+
+ACCION 122 ES
+
+AMBIENTE
+
+num:natural
+
+FUNCION sum_dig (num:natural):natural ES
+suma:natural
+suma:=0
+Mientras num>0 
+	suma:=suma + num MOD 10
+	num:=num DIV 10
+finmientras 
+sum_dig:=suma
+FINSUB
+
+PROCESO 
+escribir("Ingrese numero")
+leer(num)
+escribir("La suma de los digitos del numero"num"es igual a"sum_dig(num))
+FINACCION

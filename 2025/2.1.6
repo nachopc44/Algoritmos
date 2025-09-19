@@ -1,0 +1,31 @@
+//Dada una secuencia de enteros que almacena la cantidad de habitantes de las ciudades capitales de las 23 provincias de la República Argentina, discriminados 4 categorías: menores de 18 años (varones y mujeres) y mayores de 18 años (varones y mujeres). Se pide determinar la población total y los siguientes porcentajes: masculinos, femeninos, mayores de 18 y menores de 18.
+
+Accion 216 es 
+	AMBIENTE
+		sec1: secuencia de entero
+		v1, hmen, hmay, mmen, mmay, pobltot: entero
+	
+	PROCESO
+		arr(sec1)
+		avz(sec1,v1)
+		hmen:= 0; hmay:= 0; mmen:= 0; mmay:= 0
+
+		Mientras NFDS(sec1) hacer
+			hmen:= hmen + v1
+			avz(sec1,v1)
+			mmen:= mmen + v1
+			avz(sec1,v1)
+			hmay:= hmay + v1
+			avz(sec1,v1)
+			mmay:= mmay + v1
+			avz(sec1,v1)
+		FinMientras
+
+		pobltot:= hmen+hmay+mmen+mmay
+		Escribir("La poblacion total es de ", pobltot)
+		Escribir("El porcentaje de masculinos es de ", ((hmay+hmen)/pobltot)*100, "%")
+		Escribir("El porcentaje de femeninos es de ", ((mmay+mmen)/pobltot)*100, "%")
+		Escribir("El porcentaje de mayores de 18 es de ", ((mmay+hmay)/pobltot)*100, "%")
+		Escribir("El porcentaje de menores de 18 es de ", ((mmen+hmen)/pobltot)*100, "%")
+	FinProceso
+FINACCION

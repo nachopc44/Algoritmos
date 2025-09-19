@@ -1,0 +1,21 @@
+//Dada una secuencia de letras del alfabeto que finaliza con una marca '*', contar cuantas letras "A" hay en la secuencia.
+
+Accion 211 es
+	AMBIENTE
+		sec1: secuencia de caracter
+		v1: caracter 
+		cont: entero 
+
+	PROCESO
+		arr(sec1)
+		avz(sec1,v1)
+		cont:= 0 
+		Mientras v1<>"*" hacer 
+			Si v1="A" entonces 
+				cont:= cont + 1
+			FinSi
+			avz(sec1,v1)
+		FinMientras
+		cerrar(sec1)
+	FinProceso
+FINACCION

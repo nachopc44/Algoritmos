@@ -1,0 +1,39 @@
+accion c_agro es 
+
+AMBIENTE
+
+Servicio = registro
+	sucursal: N(4)
+	area: N(1)
+	id_serv: N(6)
+	desc: AN(45)
+	cant_cli: N(4)
+	monto: N(6.2)
+finregistro
+
+ArchE: Archivo de Servicio ordenado sucursal, area, id_serv
+RegE: Servicio
+
+Salida = registro 
+	sucursal: N(4)
+	total: N(8,2)
+finregistro
+
+ArchS: Archivo de Salida
+RegS: Salida
+
+resSuc: N(4)
+resAr: N(1)
+
+contSuc, contAr, totGral, contSuc2, contAr2, totGral2: entero
+
+procedimiento cortearea() es
+	Esc("El monto facturado por",resAr,"es de",contAr)
+	contSuc:= contSuc + contAr
+	si ArchE.cant_cli = (mod 2 = 0) entonces
+		contSuc2:= contSuc2 + contAr2
+finprocedimiento
+
+procedimiento cortesucursal() es 
+	Esc("El monto facturado por",resSuc,"es de",contSuc)
+finprocedimiento

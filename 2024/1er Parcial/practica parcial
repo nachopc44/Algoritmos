@@ -1,0 +1,105 @@
+accion parcial es
+
+ambiente
+
+sec1: secuencia de caracter
+sec2: secuencia de caracter
+secS: secuencia de caracter
+total: entero
+cont: entero
+v1: caracter
+v2: caracter 
+SCEntradas: entero
+distintos: entero
+
+proceso 
+
+arr (sec1)
+avz (sec1,v1)
+arr (sec2)
+avz (sec2,v2)
+crear (secS)
+
+distintos:=0
+mientras NFDS(sec1) hacer
+ mientras v1<>"#" hacer
+     cont:=0
+     para i:=1 a 10 hacer
+	     avz(sec1,v1)
+     finpara
+    si v1="T" entonces
+	    si v2="#" entonces
+		     avz(sec2,v2)
+			 avz(sec2,v2)
+			 avz(sec2,v2)
+		sino
+	    para i:=1 a 6 hacer
+	         avz(sec2,v2) 
+	    finpara
+	    mientras v2<>"+" hacer
+	         escribir(secS,v2)
+	         avz(sec2,v2)
+	     finmientras
+	     escribir(secS,"+")
+	     avz(sec2,v2)
+		 mientras v2<>"?" hacer
+	         para i:=1 a 8 hacer
+	             escribir(secS,v2)
+		         avz(sec2,v2)
+	         finpara
+		     mientras v2<>"." hacer
+		         avz(sec2,v2)
+			 finmientras
+			 cont:= cont + 1 
+			 avz(sec2,v2)
+		 finmientras
+		 cont:= cont + 1
+		escribir(secS,"#")
+		avz(sec1,v1)
+		segun v1 hacer
+	         ="1": SCEntradas:=1
+		     ="2": SCEntradas:=2
+		     ="3": SCEntradas:=3
+		     ="4": SCEntradas:=4
+		     ="5": SCEntradas:=5
+		finsegun
+		si SCEntradas <> cont entonces
+		 distintos:= distintos + 1
+		finsi
+		avz(sec1,v1)
+		avz(sec2,v2)
+		finsino
+	 sino
+	     si v2="#" entonces
+	         avz(sec2,v2)
+	         avz(sec2,v2)
+	         avz(sec2,v2)
+         sino
+	         avz(sec1,v1)
+		     segun v1 hacer
+	             ="1": SCEntradas:=1
+		         ="2": SCEntradas:=2
+		         ="3": SCEntradas:=3
+		         ="4": SCEntradas:=4
+		         ="5": SCEntradas:=5
+		     finsegun
+		     mientras v2<>"?" hacer
+		         mientras v2<>"." hacer
+		             avz(sec2,v2)
+			     finmientras
+			     cont:= cont + 1
+		     finmientras
+		     cont:= cont + 1
+		     si SCEntradas <> cont entonces
+		         distintos:= distintos + 1
+		     finsi
+		     avz(sec1,v1)
+		     avz(sec2,v2)
+	     finsino
+	 finsino
+    finsi
+    finmientras
+    avz(sec1,v1)
+finmientras
+escribir("La cantidad de personas que compraron una cantidad distinta de entradas a la que declararon son:"distintos)
+FINACCION

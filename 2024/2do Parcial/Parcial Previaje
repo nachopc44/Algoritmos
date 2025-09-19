@@ -1,0 +1,36 @@
+Accion PP2 es (a: arreglo de [1..23] de enteros)
+	
+	AMBIENTE
+		
+		Form_Fecha = Registro 
+			DD: (1..31)
+			MM: (1..12)
+			AA: N(4)
+		FinRegistro
+
+		Viajes = Registro 
+			DNI: N(8)
+			Fecha: Form_Fecha
+			Provincia_Destino: N(2)
+			Monto_Credito: N(10)
+		FinRegistro
+
+		arr: arreglo de [1..13][1..24] de registro 
+
+		Estadistico = Registro
+			Fecha.MM: (1..12)
+			Provincia_Destino: N(2)
+		FinRegistro
+
+		ArchViajes: archivo de Viajes
+		RegViajes: Viajes
+		RegEstadistico: Estadistico 
+		Menor, Mayor, Promedio, Destino, Monto: entero 
+
+	PROCESO 
+
+		Abrir e/ (ArchViajes)
+		Leer(ArchViajes,RegViajes)
+
+		Mientras NFDA(ArchViajes) hacer 
+			

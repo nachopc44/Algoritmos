@@ -1,0 +1,26 @@
+//Se dispone de una secuencia de caracteres. Se desea determinar la cantidad de palabras que comienzan con la letra 'I'.
+
+Accion 219 es 
+	AMBIENTE
+		sec1: secuencia de caracter 
+		v1: caracter
+		cont: entero 
+
+	PROCESO
+		arr(sec1)
+		avz(sec1,v1)
+		cont:= 0 
+
+		Mientras NFDS(sec1) hacer
+			Si v1="I" entonces
+				cont:= cont + 1
+			FinSi
+			Mientras (v1<>" " y NFDS(sec1)) hacer
+				avz(sec1,v1)
+			FinMientras
+			Mientras v1=" " hacer
+				avz(sec1,v1)
+			FinMientras
+		FinMientras
+	FinProceso
+FINACCION

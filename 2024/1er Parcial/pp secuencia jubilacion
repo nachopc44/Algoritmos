@@ -1,0 +1,110 @@
+Accion ppsecuenciajubilacion es
+
+Ambiente 
+Sec1: secuencia de caracteres
+V1: caracter 
+Sec2: secuencia de enteros
+V2: entero 
+SecJubilar: secuencia de caracteres
+RegSoli: caracter
+edad: entero 
+aportes: entero
+
+Proceso 
+arr(Sec1)
+avz(Sec1,V1)
+arr(Sec2)
+avz(Sec2,V2)
+crear(SecJubilar)
+
+edad:=0  
+aportes:=0	
+escribir("Ingresar la inicial de la provincia en la que se encuentra la regional")
+leer(RegSoli)
+Mientras NFDS(Sec1) hacer
+	avz(Sec1,V1)
+	avz(Sec1,V1)
+	Si RegSoli=V1 entonces
+  		Mientras V1<>"+" hacer
+			avz(Sec1,V1)
+			edad:= V2*10
+			avz(Sec2,V2)
+			edad:= edad+V2
+			Si V1="M" entonces
+				Si edad>=65 y edad<=70 entonces
+					avz(Sec2,V2)
+					aportes:= V2*10
+					avz(Sec2,V2)
+					aportes:= aportes+V2
+					Si aportes>=30 entonces
+						avz(Sec1,V1)	
+						Mientras V1<>"#" o V1<>"+"
+							grabar(SecJubilar,V1)
+							avz(SecJubilar,V1)
+						FinMientras
+						avz(Sec2,V2)
+						Si V1="+" entonces
+							avz(Sec1,V1)
+						FinSi
+					Sino
+						Mientras V1<>"#" o V1<>"+"
+							avz(Sec1,V1)
+						FinMientras
+						avz(Sec2,V2)
+						Si V1="+" entonces
+							avz(Sec1,V1)
+						FinSi
+					FinSi
+				Sino
+					Mientras V1<>"#" o V1<>"+"
+						avz(Sec1,V1)
+					FinMientras
+					Si V1="+" entonces
+						avz(Sec1,V1)
+					FinSi
+					avz(Sec2,V2)
+					avz(Sec2,V2)
+					avz(Sec2,V2)
+				FinSi
+			Sino
+				Si edad>=60 y edad<=70 entonces
+					avz(Sec2,V2)
+					aportes:= V2*10
+					avz(Sec2,V2)
+					aportes:= aportes+V2
+					Si aportes>=30 entonces
+						avz(Sec1,V1)	
+						Mientras V1<>"#" o V1<>"+"
+							grabar(SecJubilar,V1)
+							avz(SecJubilar,V1)
+						FinMientras
+						avz(Sec2,V2)
+						Si V1="+" entonces
+							avz(Sec1,V1)
+						FinSi
+					Sino
+						Mientras V1<>"#" o V1<>"+"
+							avz(Sec1,V1)
+						FinMientras
+						Si V1="+" entonces
+							avz(Sec1,V1)
+						FinSi
+						avz(Sec2,V2)
+					FinSi
+				Sino
+					Mientras V1<>"#"
+						avz(Sec1,V1)
+					FinMientras
+					Si V1="+" entonces
+						avz(Sec1,V1)
+					FinSi
+					avz(Sec2,V2)
+					avz(Sec2,V2)
+					avz(Sec2,V2)
+				FinSi
+			FinSi
+		FinMientras
+	Sino
+		Mientras V1<>"+" hacer
+			Si V1="#"
+				
