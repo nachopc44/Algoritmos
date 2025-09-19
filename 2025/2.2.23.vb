@@ -114,7 +114,7 @@ Accion 2223 es
                     ContLect:= 0
                     TotCons:= 0
 
-                    Mientras (aux.Id_Casa = RegMov.Id_Casa) hacer
+                    Mientras (RegMae.Id_Casa = RegMov.Id_Casa) hacer
                         Si RegMov.Fecha_Med <= FechaLim entonces
                             ContLect:= ContLect + 1 
                             TotCons:= TotCons + RegMov.Consumo
