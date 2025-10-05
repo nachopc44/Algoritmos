@@ -1,0 +1,47 @@
+Accion ConsumoAgua es 
+    AMBIENTE
+        miMatriz: matriz[1..5, 1..7] de entero
+        barrios: arreglo[1..5] de texto
+        dias: arreglo[1..7] de texto
+        i, j: entero
+        totalBarrio, mayorConsumo, barrioMayor: entero
+
+    PROCESO
+        barrios[1]:= "Norte"
+        barrios[2]:= "Sur"
+        barrios[3]:= "Centro"
+        barrios[4]:= "Este"
+        barrios[5]:= "Oeste"
+
+        dias[1]:= "Lunes"
+        dias[2]:= "Martes"
+        dias[3]:= "Miércoles"
+        dias[4]:= "Jueves"
+        dias[5]:= "Viernes"
+        dias[6]:= "Sábado"
+        dias[7]:= "Domingo"
+
+        Para i:= 1 a 5 hacer
+            Para j:= 1 a 7 hacer
+                Escribir("Ingrese el consumo de agua del barrio ", barrios[i], " el día ", dias[j])
+                Leer(matriz[i,j])
+            FinPara
+        FinPara
+
+        mayor_consumo:= -1
+
+        Para i:= 1 a 5 hacer
+            total_barrio:= 0
+            Para j:= 1 a 7 hacer
+                total_barrio:= total_barrio + matriz[i,j]
+            FinPara
+
+            Si (total_barrio > mayor_consumo) entonces
+                mayor_consumo:= total_barrio
+                barrio_mayor:= i
+            FinSi
+        FinPara
+
+        Escribir("El barrio con mayor consumo fue ", barrios[barrio_mayor]," con ", mayor_consumo," litros.")
+    FinProceso
+FINACCION
