@@ -56,4 +56,8 @@ Accion 234 es
         ArchDet: archivo de DetalleTicket indexado por Nro_Ticket
         RegDet: DetalleTicket
 
+        Total: real
+        Rta: {"si","no"}
+
+    PROCESO
         

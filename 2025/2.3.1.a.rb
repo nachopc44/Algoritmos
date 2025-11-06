@@ -45,11 +45,10 @@ Accion 231a es
         RegIndex: Clientes
 
     PROCESO
-        Abrir E/(Arch)
+        Abrir E/(Arch); Leer(Arch,Reg)
         Abrir E/(Index)
 
         Mientras NFDA(Arch) hacer 
-            Leer(Arch,Reg)
             RegIndex.Clave:= Reg.Clave
             Leer(Index,RegIndex)
             Si Existe entonces
@@ -57,6 +56,7 @@ Accion 231a es
             Sino
                 Escribir("No existe este cliente")
             FinSi
+            Leer(Arch,Reg)
         FinMientras
 
         Cerrar(Arch)

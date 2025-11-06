@@ -72,7 +72,7 @@ Accion ParcialBici() es
                     aux:= mae
                     Mientras (mae.clave = mov.clave) hacer
                         Segun mov.tipo_novedad hacer
-                            =1 Esc("No puede darse de alta una bicicleta que ya exista")
+                            =1: Esc("No puede darse de alta una bicicleta que ya exista")
                             =2: Si mov.circuito_nro = circuito_usuario hacer
                                     total_prestamos:= total_prestamos + 1
                                 FinSi

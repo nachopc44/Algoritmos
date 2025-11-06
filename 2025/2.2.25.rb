@@ -1,17 +1,17 @@
-' IDEM 2.21 pero suponiendo que hay mas de un registro de notificaciones por cada registro de amigos.
+# IDEM 2.21 pero suponiendo que hay mas de un registro de notificaciones por cada registro de amigos.
 
-' 2.21:
-' En un práctico para la Facultad un grupo de alumnos debe implementar una Red Social llamada UTNBook. Para lo cual debe utilizar los siguientes archivos:
+# 2.21:
+# En un práctico para la Facultad un grupo de alumnos debe implementar una Red Social llamada UTNBook. Para lo cual debe utilizar los siguientes archivos:
 
-' AMIGOS Ordenado por Cod_Usuario y Cod_Amigo
-' Cod_Usuario | Cod_Amigo | Fecha_Amistad | Mensaje_Muro
+# AMIGOS Ordenado por Cod_Usuario y Cod_Amigo
+# Cod_Usuario | Cod_Amigo | Fecha_Amistad | Mensaje_Muro
 
-' Cada registro indica la fecha desde que los usuarios son amigos y el último mensaje que un amigo ha escrito en el muro del usuario.
+# Cada registro indica la fecha desde que los usuarios son amigos y el último mensaje que un amigo ha escrito en el muro del usuario.
 
-' NOTIFICACIONES Ordenado por Cod_Usuario y Cod_Amigo
-' Cod_Usuario | Cod_Amigo | Cod_Movimiento | Fecha_Amistad | Mensaje_Muro
+# NOTIFICACIONES Ordenado por Cod_Usuario y Cod_Amigo
+# Cod_Usuario | Cod_Amigo | Cod_Movimiento | Fecha_Amistad | Mensaje_Muro
 
-' Periódicamente se debe actualizar el archivo Amigos, con el fin de que refleje las amistades que posee cada usuario. En el archivo notificaciones pueden existir tres tipos de acciones: la solicitud de una amistad (Cod_mov = 'A'); la eliminación de una amistad (Cod_mov = 'B'); o la información de un mensaje que un amigo ha escrito en el muro del usuario (Cod_mov = 'M'). Considerar que la eliminación de una amistad implica la baja física de un registro y que hay un solo registro de Notificaciones por cada registro de Amigo.
+# Periódicamente se debe actualizar el archivo Amigos, con el fin de que refleje las amistades que posee cada usuario. En el archivo notificaciones pueden existir tres tipos de acciones: la solicitud de una amistad (Cod_mov = 'A'); la eliminación de una amistad (Cod_mov = 'B'); o la información de un mensaje que un amigo ha escrito en el muro del usuario (Cod_mov = 'M'). Considerar que la eliminación de una amistad implica la baja física de un registro y que hay un solo registro de Notificaciones por cada registro de Amigo.
 
 Accion 2225 es
     AMBIENTE

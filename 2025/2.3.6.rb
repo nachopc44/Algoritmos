@@ -37,6 +37,9 @@ Accion 236 es
 
         ArchAutos: archivo de Autos ordenado por Clave
         RegAutos: Autos
+        ResGrupo: N(12)
+        ResCat: 1..50
+        ResAnio: N(4)
 
         Deudas = Registro 
             Clave = Registro 
@@ -62,5 +65,98 @@ Accion 236 es
         ArchCuotas: archivo de Cuotas ordenado por Clave
         RegCuotas: Cuotas
 
+        ADeuda, ACobros, CDeuda, CCobros, GDeuda, GCobros, TDeuda, TCobros, ContDeuda: real
+        ResPatenteAct: N(8)
+
+        Procedimiento CorteAnio() es
+            Escribir("Para los vehiculos fabricados en el anio ", ResAnio, " hubo $", ACobros, " en cobros y $", ADeuda, " en deudas.")
+            CCobros:= CCobros + ACobros
+            CDeuda:= CDeuda + ADeuda
+            ACobros:= 0
+            ADeuda:= 0
+            ResAnio:= RegAutos.Clave.Anio_Fab
+        FinProcedimiento
+
+        Procedimiento CorteCat() es
+            CorteAnio()
+            Escribir("Para los vehiculos de categoria ", ResCat, " hubo $", CCobros, " en cobros y $", CDeuda, " en deudas.")
+            GCobros:= GCobros + CCobros
+            GDeuda:= GDeuda + CDeuda
+            CCobros:= 0
+            CDeuda:= 0
+            ResCat:= RegAutos.Clave.Categoria
+        FinProcedimiento
+
+        Procedimiento CorteGrupo() es
+            CorteCat()
+            Escribir("Para los vehiculos del grupo ", ResGrupo, " hubo $", GCobros, " en cobros y $", GDeuda, " en deudas.")
+            TCobros:= TCobros + GCobros
+            TDeuda:= TDeuda + GDeuda
+            GCobros:= 0
+            GDeuda:= 0
+            ResGrupo:= RegAutos.Clave.Grupo
+        FinProcedimiento
+
     PROCESO
-        
+        Abrir E/ (ArchAutos); Leer(ArchAutos,RegAutos)
+        Abrir E/ (ArchDeudas)
+        Abrir E/ (ArchCuotas)
+
+        ADeuda:= 0 
+        ACobros:= 0 
+        CDeuda:= 0 
+        CCobros:= 0 
+        GDeuda:= 0 
+        GCobros:= 0 
+        TDeuda:= 0 
+        TCobros:= 0 
+
+        ResGrupo:= RegAutos.Clave.Grupo
+        ResCat:= RegAutos.Clave.Categoria
+        ResAnio:= RegAutos.Clave.Anio_Fab
+
+        Escribir("|CLAVE|DNI|APYNOM|DOMIC|DEUDA|4to TRIMESTRE|")
+
+        Mientras NFDA(ArchAutos) hacer
+            ContDeuda:= 0
+            Si (RegAutos.Clave.Grupo <> ResGrupo) entonces
+                CorteGrupo()
+            Sino 
+                Si (RegAutos.Clave.Categoria <> ResCat) entonces
+                    CorteCat()
+                Sino
+                    Si (RegAutos.Clave.Anio_Fab <> ResAnio) entonces
+                        CorteAnio()
+                    FinSi
+                FinSi
+            FinSi
+
+            RegCuotas.Clave.Grupo:= RegAutos.Clave.Grupo
+            RegCuotas.Clave.Categoria:= RegAutos.Clave.Categoria
+            RegCuotas.Clave.Anio_Fab:= RegAutos.Clave.Anio_Fab
+            Leer(ArchCuotas,RegCuotas)
+            ACobros:= ACobros + RegCuotas.Importe
+
+            ResPatenteAct:= RegAutos.Clave.Nro_Patente
+            RegDeudas.Clave.Nro_Patente:= RegAutos.Clave.Nro_Patente
+            Leer(ArchDeudas,RegDeudas)
+            Si Existe entonces 
+                Mientras (NFDA(ArchDeudas)) y (RegDeudas.Nro_Patente = ResPatenteAct) hacer
+                    ContDeuda:= RegDeudas.Importe
+                    Leer(ArchDeudas,RegDeudas)
+                FinMientras
+                ADeuda:= ADeuda + ContDeuda
+            FinSi
+
+            Escribir("|", RegAutos.Clave, "|", RegAutos.DNI, "|", RegAutos.ApyNom, "|", RegAutos.Domicilio, "|", ContDeuda, "|", RegCuotas.Importe, "|")
+            Leer(ArchCuotas,RegCuotas)
+        FinMientras
+        CorteGrupo()
+        Escribir("TOTAL | DEUDA: ",TDeuda" | 4to TRIMESTRE: ",TCobros)
+
+        Cerrar(ArchAutos)
+        Cerrar(ArchDeudas)
+        Cerrar(ArchCuotas)
+
+    FinProcedimiento
+FINACCION
